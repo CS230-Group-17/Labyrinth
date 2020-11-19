@@ -1,5 +1,7 @@
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+
 import javafx.scene.image.Image;
 
 public class Player
@@ -8,7 +10,7 @@ public class Player
 	private String imgPath;
 	private PlayerProfile playerProfile;
 	private Player[] prevBtPlayers = new Player[4];
-	// private ArrayList<ActionTile> hand = new ArrayList<ActionTile>(); "Remove once action tile class is done."
+	private ArrayList<ActionTile> hand = new ArrayList<ActionTile>();
 	// insert backTiles here
 	private int movesPerTurn;
 	
@@ -39,15 +41,12 @@ public class Player
 			}
 		}
 	}
-	
-	/*
-	 * uncomment when action tile class is done
-	 * 
-	 * public ArrayList<ActionTile> getHand()
-	 * {
-	 *     return hand;
-	 * }
-	 */
+
+	public ArrayList<ActionTile> getHand()
+	{
+	    return hand;
+	}
+	 
 	
 	public Image getImage()
 	{
