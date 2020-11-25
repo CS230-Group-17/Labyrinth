@@ -1,5 +1,6 @@
 /**
  * the chosen player goes back to a FloorTile where it was 2 moves ago if it is possible
+ * @author Marijus Gudiskis 1901701
  */
 public class Backtrack extends ActionTile {
 
@@ -22,10 +23,12 @@ public class Backtrack extends ActionTile {
             tileFound = false;
             FloorTile temp = effectedPlayer.getBackTiles();//for what tile we are searching
 
-            for (int i = 0; i < Game.board.size(); i++) {
-                if(Game.board.get(i).contains(temp)) {
-                    effectedPlayer.setPlayerLocation(temp);
-                    tileFound = true;
+            for (int i = 0; i < Game.board.length; i++) {
+                for (int e = 0; e < Game.board[i].length; e++) {
+                    if (Game.board[i][e] == temp) {
+                        effectedPlayer.setPosition(temp);
+                        tileFound = true;
+                    }
                 }
             }
 

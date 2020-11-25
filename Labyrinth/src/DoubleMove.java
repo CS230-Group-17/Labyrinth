@@ -1,5 +1,6 @@
 /**
  * adds extra move
+ * @author Marijus Gudiskis 1901701
  */
 public class DoubleMove extends ActionTile {
 

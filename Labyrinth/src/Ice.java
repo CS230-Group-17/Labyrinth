@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 /**
  * ices appropriate tiles
+ * @author Marijus Gudiskis 1901701
  */
 
 public class Ice extends ActionTile {
@@ -16,10 +17,13 @@ public class Ice extends ActionTile {
      */
     @Override
     public void ActionTile(Player player) {
-        ArrayList<FloorTile> iced = Game.getEffectedTiles(true);
-        for (FloorTile i: iced) {
-            i.setIce();
-            i.setIceForNextTurns(Game.numOfPlayers + Game.currentTurn);
+        FloorTile[][] temp = Game.getEffectedTiles(true);
+
+        for(int i = 0; i < temp.length; i++) {
+            for(int j = 0; j < temp[i].length; j++) {
+                temp[i][j].isFrozen = true;
+                temp[i][j].isFrozenForTheNextNTurns = Game.currentTurn + Game.numOfPlayers;
+            }
         }
     }
 }

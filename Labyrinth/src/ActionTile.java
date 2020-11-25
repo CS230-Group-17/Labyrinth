@@ -2,17 +2,14 @@ import java.util.SplittableRandom;
 
 /**
  * abstract action tile for other action tiles to follow
+ * @author Marijus Gudiskis 1901701
  */
-public abstract class ActionTile {
-    private final String imgPath;
+public abstract class ActionTile extends Tile {
 
     public ActionTile(String imgPath) {
-        this.imgPath = imgPath;
+        super(imgPath);
     }
 
-    public String getImgPath() {
-        return imgPath;
-    }
 
     /**
      * united method that all action tiles will use
