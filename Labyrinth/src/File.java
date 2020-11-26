@@ -71,7 +71,7 @@ public class File {
 		for (String playerSpawn: playerSpawnLocations) {
 			String[] curArgs = curFixedTile.split(",");
 			
-			playerLocations.add( ( Integer.ParseInt(curArgs[0]), Integer.ParseInt(curArgs[1]) ) );
+			playerLocations.add((Integer.ParseInt(curArgs[0])),(Integer.ParseInt(curArgs[1])));
 		}
 		
 		//read silk bag contents

@@ -14,7 +14,8 @@ public class Player
 	private ArrayList<ActionTile> hand = new ArrayList<ActionTile>();
 	private ArrayList<FloorTile> backTiles= new ArrayList<FloorTile>();
 	private int movesPerTurn = 1;
-	public FloorTile playerLocation;
+	private FloorTile playerLocation;
+	
 	
 	public Player(String imgPath, PlayerProfile playerProfile, FloorTile location)
 	{
@@ -86,7 +87,7 @@ public class Player
 
 
 	/**
-	 * adds a tile on which the player was standing on
+	 * Adds a tile on which the player was standing on
 	 * @param pastTile the past tile it was standing on
 	 */
 	 public void updateGetBackTiles(FloorTile pastTile) {
@@ -97,7 +98,7 @@ public class Player
 	 }
 
 	/**
-	 * returns the soonest tile it was standing on
+	 * Returns the soonest tile it was standing on
 	 * @return the soonest tile
 	 */
 	 public FloorTile getBackTiles() {
@@ -105,7 +106,11 @@ public class Player
 		backTiles.remove(0);
 		return temp;
 	 }
-
+	 
+	 /**
+	  * Sets the position of the player piece
+	  * @param newPos
+	  */
 	 public void setPosition(FloorTile newPos) {
 		 this.playerLocation = newPos;
 	 }
