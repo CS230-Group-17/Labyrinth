@@ -67,56 +67,6 @@ public class FloorTile extends Tile{
 		}
 		setImage(imgPath);
 	}
-	
-	private void calcFloorTileImage(String floorTileType) {
-		String imgPath = "";
-		switch(floorTileType){
-		case "I":
-			if(isNorth()) {
-				
-			}else {
-				
-			}
-			break;
-		case "L":
-			if(isNorth()) {
-				if(isEast()) {
-					
-				}else {
-					
-				}
-			} else if(isSouth()) {
-				if(isWest()) {
-					
-				}else {
-					
-				}
-			}
-			break;
-		case "T":
-			if(isNorth()) {
-				if(isEast()){
-					if(isSouth()) {
-						//imgPath = right T piece;
-					}else {
-						//imgPath = top T piece;
-					}
-				}else {
-					//imgPath = left T piece;
-				}
-			}else {
-				//imgPath = bottom T piece;
-			}
-			break;
-		case "G":
-			//imgPath = goal tile;
-			break;
-		default:
-			//throw error
-		}
-		setImage(imgPath);
-	}
-	
 	public boolean isTileFixed() {
 		return (frozenUntilNthTurn > Game.getTurn());
 	}
