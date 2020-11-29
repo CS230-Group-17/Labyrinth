@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;  
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,6 +18,10 @@ public class File {
 	 * @param selectedMap - the map specified to load 
 	 * @return an instance of the Game class instatiated from the selectedMap argument
 	 */
+	
+	
+	private String localisedDirStruct_PlayerProfile = "";
+	private String localisedDirStruct_Game = "";
 	
 	public Game readNewGame(String selectedMap) throws FileNotFoundException {
 		//game arguments / game data
@@ -150,6 +155,83 @@ public class File {
 	 */
 	public boolean saveGame(Game currentGame, String saveName) {
 		
+		
+        PrintWriter gameWriter = new PrintWriter(new File(this.localisedDirStruct_Game+saveName));
+        
+        //width and height of the board
+        gameWriter.print(currentGame.getWidthOfBoard()+", "+currentGame.getHeightOfBoard());      
+
+        //fixed tiles
+		ArrayList<FixedTile> fixedTiles = currentGame.getFixedTiles();
+		
+		String fixedTilesString = "";
+		for (FixedTile currentFixedTile : fixedTiles) {
+			int xValue = currentFixedTile.getX();
+			int yValue = currentFixedTile.getY();
+			boolean direction_north = currentFixedTile.getNoth();
+			boolean direction_east = currentFixedTile.getEast();
+			boolean direction_south = currentFixedTile.getSouth();
+			boolean direction_west = currentFixedTile.getWest();
+			boolean isFixed = currentFixedTile.isFixedTile();
+			fixedTilesString += (String.valueOf(xValue) + "," + String.valueOf(yValue) + "," + String.valueOf(direction_north)
+			+ "," + String.valueOf(direction_east) + "," + String.valueOf(direction_south) + "," + String.valueOf(direction_west) + "," + String.valueOf(isFixed) + "$" );
+		}
+		
+		gameWriter.println(fixedTilesString);
+		//player spawns
+		
+		
+		//board
+		FloorTile[][] gameBoard = currentGame.getBoard();
+		
+		String boardString = "";
+		for (FloorTile currentFloorTile : gameBoard) {
+			boolean direction_north = currentFloorTile.getNoth();
+			boolean direction_east = currentFloorTile.getEast();
+			boolean direction_south = currentFloorTile.getSouth();
+			boolean direction_west = currentFloorTile.getWest();
+			boolean isFixed = currentFloorTile.isFixedTile();
+			boardString += (String.valueOf(direction_north)+ "," + String.valueOf(direction_east) + "," 
+			+ String.valueOf(direction_south) + "," + String.valueOf(direction_west) + "," + String.valueOf(isFixed) + "$");
+		}
+		
+		gameWriter.println(boardString);
+		
+		
+		//silkbag
+		ArrayList<Tile> silkBag = currentGame.getSilkBag();
+		
+		int numOfStraight = 0;
+		int numOfCorners = 0;
+		int numOfTShape = 0;
+		int numOfFireTile = 0;
+		int numOfIceTile = 0;
+		int numOfBacktrackTile = 0;
+		int numOfDoubleMoveTiles = 0;
+		
+		for (Tile currentTile : silkBag) {
+			if currentTile.getName() == "Straight" {
+					numOfStraight++;
+			} else if currentTile.getName() == "Corner" {
+					numOfCorners++;
+			} else if currentTile.getName() == "TShape" {
+					numOfTShape++;
+			} else if currentTile.getName() == "Fire" {
+					numOfFireTile++;
+			} else if currentTile.getName() == "Ice" {
+					numOfIceTile++;
+			} else if currentTile.getName() == "Backtrack" {
+					numOfBacktrackTile++;
+			} else if currentTile.getName() == "DoubleMove" {
+					numOfDoubleMoveTiles++;
+			}
+		}
+		
+		gameWriter.println(String.valueOf(numOfStraight)+","+String.valueOf(numOfCorners)+","+String.valueOf(numOfTShape)+","+
+				String.valueOf(numOfFireTile)+","+String.valueOf(numOfFireTile)+","+String.valueOf(numOfBacktrackTile)+","+String.valueOf(numOfDoubleMoveTiles));
+		
+		gameWriter.flush();  
+		gameWriter.close();  
 	}
 	
 	/**
@@ -167,6 +249,20 @@ public class File {
 	 * @return an instance of the PlayerProfile class instantiated from the data relative to the ProfileName argument
 	 */
 	public PlayerProfile readPlayerProfile(String ProfileName) {
+		try {
+			File playerProfileFile = new File(this.localisedDirStruct_PlayerProfile+ProfileName);
+			Scanner scanner = new Scanner(playerProfileFile);
+			String name = scanner.nextLine();
+			int wins = Integer.parseInt(scanner.nextLine());
+			int losses = Integer.parseInt(scanner.nextLine());
+			int gamesPlayed = Integer.parseInt(scanner.nextLine());
+			scanner.close();
+			return new PlayerProfile(name, wins, losses, gamesPlayed);
+			
+		} catch (FileNotFoundException e) {
+			System.out.println("Player profile specified does not exist.");
+			e.printStackTrace();
+		}
 		
 	}
 	
@@ -176,7 +272,8 @@ public class File {
 	 * @return a boolean value to show if the operation has been successful
 	 */
 	public Boolean deletePlayerProfile(String profileName) {
-		
+		File playerProfileFile = new File(this.localisedDirStruct_PlayerProfile + profileName); 
+		playerProfileFile.delete();
 	}
 	
 	/**
@@ -185,7 +282,18 @@ public class File {
 	 * @return An instance of PlayerProfile
 	 */
 	public PlayerProfile createPlayerProfile(String name) {
+		File playerProfileFile = new File(this.localisedDirStruct_PlayerProfile + name); 
 		
+        PrintWriter playerProfileWriter = new PrintWriter(new File(this.localisedDirStruct_PlayerProfile + name));  
+
+		playerProfileWriter.print(name);      
+		playerProfileWriter.println(0);   
+		playerProfileWriter.println(0);   
+		playerProfileWriter.println(0);   
+		playerProfileWriter.flush();  
+		playerProfileWriter.close();  
+		
+		return new PlayerProfile(name, 0, 0, 0);
 	}
 	
 	/**
@@ -193,8 +301,28 @@ public class File {
 	 * @param players - An array of Players
 	 * @return a boolean value to show if the operation has been successful
 	 */
-	public Boolean updateAllPlayerProfriles(Player[] players) {
+	public Boolean updateAllPlayerProfiles(Game currentGame) {
+		Player[] players = currentGame.getPlayers();
 		
+		for (Player currentPlayer : players) {
+			
+			overwritePlayerProfile(currentPlayer);
+		}
+	}
+	
+	/**
+	 * Method to overwite player
+	 * @param currentPlayer
+	 */
+	public void overwritePlayerProfile(Player currentPlayer) {
+		playerProfile currentPlayerProfile = currentPlayer.getPlayerProfile();
+		
+		String name = playerProfile.getName();
+		int wins = playerProfile.getWins();
+		int losses = playerProfile.getLosses();
+		int gamesPlayed = playerProfile.getGamesPlayed();
+		
+		//unsure what to do
 	}
 
 }

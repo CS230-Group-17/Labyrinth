@@ -26,10 +26,31 @@ public class Game {
         removeIceAndFire();
         currentTurn++;
     }
+    
     public FloorTile getTileFromTheBoard(int row, int col) {
         return board[row][col];
     }
 
+    public ArrayList<FixedTile> getFixedTilesFromBoard() {
+    	ArrayList<FixedTile> fixedTiles = new ArrayList<FixedTile>();
+        for(int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+            	if (board[i][j].isFixedTile()) {
+            		fixedTiles.add(board[i][j]);
+            	}
+            }
+        }
+        
+        return fixedTiles;
+    }
+    
+    public int getWidthOfBoard() {
+        return board[0].length;
+    }
+    
+    public int getHeightOfBoard() {
+        return board.length;
+    }
     /**
      * slides the tile if the row or column is not fixed or frozen. Row represents in which row you want to insert and
      * col tell in which column to insert, so a row:0 and col:2 will insert from the top at column 2 and row:2 and

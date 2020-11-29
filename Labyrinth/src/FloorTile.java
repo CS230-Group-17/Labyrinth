@@ -29,4 +29,21 @@ public class FloorTile extends Tile {
     public boolean isFixedTile() {
         return fixedTile;
     }
+    
+    public boolean getNorth() {
+    	return north;
+    }
+    
+    public boolean getSouth() {
+    	return south;
+    }
+
+    public boolean getEast() {
+    	return east;
+    }
+
+    public boolean getWest() {	
+    	return west;
+    }
+    
 }
