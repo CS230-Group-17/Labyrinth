@@ -1,3 +1,7 @@
+package sample;
+
+import javafx.scene.image.Image;
+
 import java.util.ArrayList;
 
 /**
@@ -7,8 +11,8 @@ import java.util.ArrayList;
 
 public class Ice extends ActionTile {
 
-    public Ice(String imgPath) {
-        super(imgPath);
+    public Ice(String imgPath, Image tileImage) {
+        super(imgPath, tileImage);
     }
 
     /**
@@ -16,14 +20,14 @@ public class Ice extends ActionTile {
      * @param player the player who called this class, it is not needed but otherwise it would not work in other classes
      */
     @Override
-    public void ActionTile(Player player) {
-        FloorTile[][] temp = Game.getEffectedTiles(true);
+    public boolean ActionTile(Player player) {
+        ArrayList<FloorTile> temp = Game.getEffectedTiles();
 
-        for(int i = 0; i < temp.length; i++) {
-            for(int j = 0; j < temp[i].length; j++) {
-                temp[i][j].isFrozen = true;
-                temp[i][j].isFrozenForTheNextNTurns = Game.currentTurn + Game.numOfPlayers;
-            }
+
+        for(FloorTile tile : temp){
+            tile.isFrozen = true;
+            tile.isFrozenForTheNextNTurns = Game.currentTurn + Game.numOfPlayers;
         }
+        return true;
     }
 }

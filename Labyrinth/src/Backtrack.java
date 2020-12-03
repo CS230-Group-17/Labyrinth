@@ -1,11 +1,15 @@
+package sample;
+
+import javafx.scene.image.Image;
+
 /**
  * the chosen player goes back to a FloorTile where it was 2 moves ago if it is possible
  * @author Marijus Gudiskis 1901701
  */
 public class Backtrack extends ActionTile {
 
-    public Backtrack(String imgPath) {
-        super(imgPath);
+    public Backtrack(String imgPath, Image tileImage){
+        super(imgPath, tileImage);
     }
 
     /**
@@ -13,7 +17,7 @@ public class Backtrack extends ActionTile {
      * @param player the player who is making other players go back
      */
     @Override
-    public void ActionTile(Player player) {
+    public boolean ActionTile(Player player) {
         Player effectedPlayer = Game.getEffectedPlayers(player);
 
         //find if the previous location tile still exist on the board
@@ -23,7 +27,7 @@ public class Backtrack extends ActionTile {
             tileFound = false;
             FloorTile temp = effectedPlayer.getBackTiles();//for what tile we are searching
 
-            for (int i = 0; i < Game.board.length; i++) {
+            for (int i = 0; i < Game.board.length && temp != null; i++) {
                 for (int e = 0; e < Game.board[i].length; e++) {
                     if (Game.board[i][e] == temp) {
                         effectedPlayer.setPosition(temp);
@@ -33,6 +37,6 @@ public class Backtrack extends ActionTile {
             }
 
         }
-
+        return true;
     }
 }

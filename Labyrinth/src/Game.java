@@ -1,3 +1,5 @@
+package sample;
+
 import java.util.ArrayList;
 
 /**
@@ -10,7 +12,7 @@ public class Game {
     public static Player[] players;//this for testing
     public static FloorTile[][] board;//FloorTile
     private FloorTile goalTile;
-    private ArrayList<Tile> silkBag = new ArrayList<Tile>();
+    public static ArrayList<Tile> silkBag = new ArrayList<Tile>();
 
     public Game(Player[] players, FloorTile[][] board, FloorTile goalTile,
                 ArrayList<Tile> silkBag, int currentTurn, int numOfPlayers) {
@@ -40,7 +42,7 @@ public class Game {
      * @param newTile the new tile
      * @return returns true if successful, false otherwise
      */
-    public Boolean slideTile(int row, int col, FloorTile newTile) {
+    static public Boolean slideTile(int row, int col, FloorTile newTile) {
         FloorTile oldTile1 = newTile;
         FloorTile oldTile2;
         boolean isNotFixed = true;
@@ -97,9 +99,14 @@ public class Game {
         //if a player was standing on that tile it will be relocated to a new tile
         for(int i = 0; i < numOfPlayers; i++) {
             if(oldTile1 == players[i].getPosition()) {
+                players[i].updateGetBackTiles(players[i].getPosition());
                 players[i].setPosition(newTile);
             }
         }
+        oldTile1.isFrozen = false;
+        oldTile1.isOnFire = false;
+        oldTile1.isFrozenForTheNextNTurns = 0;
+        oldTile1.isOnFireForTheNextNTurns = 0;
         silkBag.add(oldTile1);
         return true;
     }
@@ -114,7 +121,7 @@ public class Game {
      * @param up is it going up
      * @return returns true if successful, false otherwise
      */
-    public boolean movePlayer(Player player, boolean right, boolean left, boolean down, boolean up) {
+    static public boolean movePlayer(Player player, boolean right, boolean left, boolean down, boolean up) {
 
         int playerX = 0;
         int playerY = 0;
@@ -141,7 +148,7 @@ public class Game {
         }else if(right) {
             nX = playerX;
             nY = playerY+1;
-            if(board[nX][nY].west && !board[nX][nY].isOnFire){//if the tile will accept the player
+            if(board[nX][nY].west && board[playerX][playerY].east && !board[nX][nY].isOnFire){//if the tile will accept the player
                 player.updateGetBackTiles(player.getPosition());
                 player.setPosition(board[nX][nY]);
                 return true;
@@ -149,7 +156,7 @@ public class Game {
         }else if(left) {
             nX = playerX;
             nY = playerY-1;
-            if(board[nX][nY].east  && !board[nX][nY].isOnFire){
+            if(board[nX][nY].east && board[playerX][playerY].west && !board[nX][nY].isOnFire){
                 player.updateGetBackTiles(player.getPosition());
                 player.setPosition(board[nX][nY]);
                 return true;
@@ -157,7 +164,7 @@ public class Game {
         }else if(up) {
             nX = playerX-1;
             nY = playerY;
-            if(board[nX][nY].south && !board[nX][nY].isOnFire){
+            if(board[nX][nY].south && board[playerX][playerY].north && !board[nX][nY].isOnFire){
                 player.updateGetBackTiles(player.getPosition());
                 player.setPosition(board[nX][nY]);
                 return true;
@@ -165,7 +172,7 @@ public class Game {
         }else if(down) {
             nX = playerX+1;
             nY = playerY;
-            if(board[nX][nY].north && !board[nX][nY].isOnFire){
+            if(board[nX][nY].north && board[playerX][playerY].south && !board[nX][nY].isOnFire){
                 player.updateGetBackTiles(player.getPosition());
                 player.setPosition(board[nX][nY]);
                 return true;
@@ -177,7 +184,7 @@ public class Game {
     /**
      *removes the fire and Ice from the board after certain turns
      */
-    public void removeIceAndFire(){
+    public static void removeIceAndFire(){
         for(int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
                 if(board[i][j].isOnFireForTheNextNTurns == currentTurn){
@@ -215,6 +222,61 @@ public class Game {
         return goalTile;
     }
 
+    public void removeFromSilkBag() {
+        silkBag.remove(0);
+    }
+
+    public static boolean canPlayerMove(Player player){
+        int playerX = 0;
+        int playerY = 0;
+        int nX;
+        int nY;
+        //finding the player on the board
+        for(int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                if(player.getPosition() == board[i][j]) {
+                    playerX = i;
+                    playerY = j;
+                }
+            }
+        }
+        //making sure that the player stays on the board
+
+        if(playerY != board[0].length-1) {
+            nX = playerX;
+            nY = playerY + 1;
+            if (board[nX][nY].west && board[playerX][playerY].east && !board[nX][nY].isOnFire) {//if the tile will accept the player
+                return true;
+            }
+        }
+
+        if(playerY != 0) {
+            nX = playerX;
+            nY = playerY - 1;
+            if (board[nX][nY].east && board[playerX][playerY].west && !board[nX][nY].isOnFire) {
+                return true;
+            }
+        }
+
+        if(playerX != 0) {
+            nX = playerX - 1;
+            nY = playerY;
+            if (board[nX][nY].south && board[playerX][playerY].north && !board[nX][nY].isOnFire) {
+                return true;
+            }
+        }
+
+        if(playerX != board.length-1) {
+            nX = playerX + 1;
+            nY = playerY;
+            if (board[nX][nY].north && board[playerX][playerY].south && !board[nX][nY].isOnFire) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public ArrayList<Tile> getSilkBag() {
         return silkBag;
     }
@@ -246,24 +308,23 @@ public class Game {
         return board;
     }
 
-
     public Player getPlayer(int index) {
         return players[index];
     }
 
-    public static Player getEffectedPlayers(Player hostPlayer) {
+    public static Player getEffectedPlayers(Player efPlayer) {
         //the chosen player will be returned
-        return players[0];
+        return efPlayer;
     }
 
-    public static FloorTile[][] getEffectedTiles(boolean fire) {
-        //the player selects the tiles on which the file or ice is set, before that is chechks if
-        //any player are standing on those tiles if this is for fire
-        FloorTile[][] temp = new FloorTile[3][3];
+    public static ArrayList<FloorTile> getEffectedTiles() {
 
-        for(int i = 0; i < temp.length; i++) {
-            for(int j = 0; j < temp[i].length; j++) {
-                temp[i][j] = board[i][j];
+        ArrayList<FloorTile> temp = new ArrayList<>();
+        for(int i = Controller.ytile-1; i < Controller.ytile + 2; i++) {
+            for(int j = Controller.xtile-1; j < Controller.xtile + 2; j++) {
+                if(i >= 0 && i < board.length && j >= 0 && j < board[0].length) {
+                    temp.add(board[i][j]);
+                }
             }
         }
         return temp;

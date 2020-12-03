@@ -1,4 +1,5 @@
-import java.util.SplittableRandom;
+package sample;
+import javafx.scene.image.Image;
 
 /**
  * abstract action tile for other action tiles to follow
@@ -6,8 +7,8 @@ import java.util.SplittableRandom;
  */
 public abstract class ActionTile extends Tile {
 
-    public ActionTile(String imgPath) {
-        super(imgPath);
+    public ActionTile(String imgPath, Image tileImage) {
+        super(imgPath, tileImage);
     }
 
 
@@ -15,5 +16,5 @@ public abstract class ActionTile extends Tile {
      * united method that all action tiles will use
      * @param player the player who calls this class
      */
-    public abstract void ActionTile(Player player);
+    public abstract boolean ActionTile(Player player);
 }

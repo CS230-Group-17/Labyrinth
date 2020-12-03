@@ -1,14 +1,14 @@
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-
+package sample;
 
 import javafx.scene.image.Image;
+
+import java.util.ArrayList;
 
 public class Player
 {
 	// private FloorTile location; "Remove once floor tile class is done."
 	private String imgPath;
+	private Image playerImage;
 	private PlayerProfile playerProfile;
 	private Player[] prevBtPlayers = new Player[4];
 	private ArrayList<ActionTile> hand = new ArrayList<ActionTile>();
@@ -17,11 +17,17 @@ public class Player
 	private FloorTile playerLocation;
 	
 	
-	public Player(String imgPath, PlayerProfile playerProfile, FloorTile location)
-	{
+	public Player(String imgPath, PlayerProfile playerProfile, FloorTile location, Image playerImage) {
 		this.imgPath = imgPath;
 		this.playerProfile = playerProfile;
 		this.playerLocation = location;
+		this.playerImage = playerImage;
+
+		updateGetBackTiles(location);
+	}
+
+	public Image getPlayerImage(){
+		return playerImage;
 	}
 
 	public PlayerProfile getPlayerProfile() {
@@ -45,25 +51,25 @@ public class Player
 		}
 	}
 
-	public ArrayList<ActionTile> getHand()
+	public ActionTile getHand(int index)
 	{
-	    return hand;
+	    return hand.get(index);
 	}
-	
-	public Image getImage()
+
+	public void addHand(ActionTile newTile) {
+		hand.add(newTile);
+	}
+
+	public int sizeOfHand(){
+		return hand.size();
+	}
+	public void removeHandTile(ActionTile tile) {
+		hand.remove(tile);
+	}
+
+	public String getImage()
 	{
-		try
-		{
-			FileInputStream inputStream = new FileInputStream(imgPath);
-			Image image = new Image(inputStream);
-			return image;
-		}
-		catch (FileNotFoundException e)
-		{
-			System.out.println("Can not find the image file.");
-			System.exit(0);
-		}
-		return null;
+		return imgPath;
 	}
 	
 	public int getMovesPerTurn()
@@ -102,9 +108,13 @@ public class Player
 	 * @return the soonest tile
 	 */
 	 public FloorTile getBackTiles() {
-		FloorTile temp = backTiles.get(0);
-		backTiles.remove(0);
-		return temp;
+	 	if(backTiles.size() == 0){
+	 		return null;
+		}else {
+			FloorTile temp = backTiles.get(0);
+			backTiles.remove(0);
+			return temp;
+		}
 	 }
 	 
 	 /**
