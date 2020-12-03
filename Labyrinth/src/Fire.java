@@ -1,3 +1,7 @@
+package sample;
+
+import javafx.scene.image.Image;
+
 import java.util.ArrayList;
 
 /**
@@ -5,8 +9,8 @@ import java.util.ArrayList;
  * @author Marijus Gudiskis 1901701
  */
 public class Fire extends ActionTile {
-    public Fire(String imgPath) {
-        super(imgPath);
+    public Fire(String imgPath, Image tileImage) {
+        super(imgPath, tileImage);
     }
 
     /**
@@ -14,18 +18,19 @@ public class Fire extends ActionTile {
      * @param player the player who called this class, it is not needed but otherwise it would not work in other classes
      */
     @Override
-    public void ActionTile(Player player) {
-        FloorTile[][] temp = Game.getEffectedTiles(true);
-        if(isIsSafeToSetFire(temp)) {
-            for (int i = 0; i < temp.length; i++) {
-                for (int j = 0; j < temp[i].length; j++) {
-                    temp[i][j].isOnFire = true;
-                    temp[i][j].isOnFireForTheNextNTurns = Game.currentTurn + (2 * Game.numOfPlayers);
+    public boolean ActionTile(Player player) {
+        ArrayList<FloorTile> temp = Game.getEffectedTiles();
+        boolean ret = isIsSafeToSetFire(temp);
+        if(ret) {
+            for(FloorTile tile : temp){
+                tile.isOnFire = true;
+                tile.isOnFireForTheNextNTurns = Game.currentTurn + (2 * Game.numOfPlayers);
                 }
-            }
+
         }else {
             System.out.println("there are players in that area");
         }
+        return ret;
     }
 
     /**
@@ -33,14 +38,13 @@ public class Fire extends ActionTile {
      * @param field the 3 by 3 filed on the board
      * @return true if there are no players on the field and false otherwise
      */
-    private boolean isIsSafeToSetFire(FloorTile[][] field){
+    private boolean isIsSafeToSetFire(ArrayList<FloorTile> field){
         boolean noPlayers = true;
-        for(int i = 0; i < field.length; i++) {
-            for (int j = 0; j < field[i].length; j++) {
-                for(int k = 0; k < Game.numOfPlayers; k++) {
-                    if(Game.players[k].getPosition() == field[i][j]) {
-                        noPlayers = false;
-                    }
+
+        for(FloorTile tile : field){
+            for(int k = 0; k < Game.numOfPlayers; k++) {
+                if(Game.players[k].getPosition() == tile) {
+                    noPlayers = false;
                 }
             }
         }

@@ -1,8 +1,13 @@
+package sample;
+
+
+import javafx.scene.image.Image;
+
 /**
  * tile which hold all the needed information to be on the board
- * @author Luciano Martino 851509
+ * @author Marijus Gudiskis 1901701
  */
-import javafx.scene.image.*;
+
 
 public class FloorTile extends Tile{
 	private int frozenUntilNthTurn;
@@ -20,7 +25,7 @@ public class FloorTile extends Tile{
 		}
 
 		calcFloorTileImage(count);
-		
+
 	}
 	private void calcFloorTileImage(int amountOfSidesEnterable) {
 		String imgPath = "";
@@ -73,25 +78,8 @@ public class FloorTile extends Tile{
 	public boolean isOnFire() {
 		return (onFireUntilNthTurn > Game.getTurn());
 	}
-	public Image getImage() {
-		return image;
-	}
-//	public void setImage(Image image) {
-//		this.image = image;
-//	}
-	private void setImage(String path) {
-		this.image = new Image(path);
-	}
-	public boolean isNorth() {
-		return whichDirectionsEnterable[0];
-	}
-	public boolean isEast() {
-		return whichDirectionsEnterable[1];
-	}
-	public boolean isSouth() {
-		return whichDirectionsEnterable[2];
-	}
-	public boolean isWest() {
-		return whichDirectionsEnterable[3];
+
+	public boolean isFixedTile() {
+		return fixedTile;
 	}
 }

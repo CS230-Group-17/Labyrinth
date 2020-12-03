@@ -1,9 +1,28 @@
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.io.File;
+package sample;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
-public class Main {
+import javafx.application.Application;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
+import javafx.stage.Stage;
+
+import javafx.event.EventHandler;
+import javafx.scene.input.KeyEvent;
+
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
+import javax.swing.*;
+
+public class Main extends Application {
 
     public static void printPlace(Game itsAGame){
         for(int i = 0; i < itsAGame.board.length; i++){
@@ -45,83 +64,62 @@ public class Main {
     }
 
 
-    public static void main(String[] args) {
 
+
+    public static void main(String[] args) throws FileNotFoundException {
+
+        String paths = "C:\\Users\\marij\\Downloads\\aa.png";
+        Image tileimage = new Image(new FileInputStream(paths));
         //board
-        FloorTile[][] boardTemp = {{new FloorTile("path", true, false, true, true, false, "L Shape"), new FloorTile("path", false, false, true, false, true, "- Shape"), new FloorTile("path", true, false, false, true, true, "re L Shape")},
-                {new FloorTile("path", true, false, true, true, true, "T Shape"), new FloorTile("path", false, true, true, true, true, "+ Shape"), new FloorTile("path", true, true, false, true, true, "T  Shape")},
-                {new FloorTile("path", true, true, true, false, false, "L Shape"), new FloorTile("path", false, false, false, true, false, "I Shape"), new FloorTile("path", true, true, false, false, true, "L Shape")},
+        FloorTile[][] boardTemp = {{new FloorTile(paths, tileimage, true, false, true, true, false, "L Shape"), new FloorTile(paths, tileimage, false, false, true, false, true, "- Shape"), new FloorTile(paths, tileimage, true, false, false, true, true, "re L Shape")},
+                {new FloorTile(paths, tileimage,false, false, true, true, true, "T Shape"), new FloorTile(paths, tileimage,false, true, true, true, true, "+ Shape"), new FloorTile(paths, tileimage, false, true, false, true, true, "T  Shape")},
+                {new FloorTile(paths, tileimage, true, true, true, false, false, "L Shape"), new FloorTile(paths, tileimage,false, true, false, true, false, "I Shape"), new FloorTile(paths, tileimage, true, true, false, false, true, "L Shape")},
+                {new FloorTile(paths, tileimage, true, true, true, false, false, "L Shape"), new FloorTile(paths, tileimage,false, true, false, true, false, "I Shape"), new FloorTile(paths, tileimage, true, true, false, false, true, "L Shape")}
+
         };
-        //creating the players and the game it self
+
         ArrayList<Tile> silkbag = new ArrayList<Tile>();
-        silkbag.add(new FloorTile("path", true, false, true, true, true, "T Shape"));
-        silkbag.add(new DoubleMove("path"));
+
+        Image silkImage = new Image(new FileInputStream("C:\\Users\\marij\\Downloads\\qq.png"));
+        silkbag.add(new FloorTile("C:\\Users\\marij\\Downloads\\qq.png", silkImage,false, true, true, true, true, "+"));
+        silkbag.add(new FloorTile("C:\\Users\\marij\\Downloads\\qq.png", silkImage,false, true, true, true, true, "+"));
+        silkbag.add(new FloorTile("C:\\Users\\marij\\Downloads\\qq.png", silkImage,false, true, true, true, true, "+"));
+        silkbag.add(new Ice("C:\\Users\\marij\\Downloads\\ice.png", new Image(new FileInputStream("C:\\Users\\marij\\Downloads\\ice.png"))));
+        //silkbag.add(new DoubleMove("path"));
         PlayerProfile bob = new PlayerProfile(0, 1, "bob", 1);
         PlayerProfile sam = new PlayerProfile(1, 0, "sam", 1);
-        Player player1 = new Player("path", bob, boardTemp[1][1]);
-        Player player2 = new Player("path", sam, boardTemp[2][2]);
+
+
+        Image playerImg = new Image(new FileInputStream("C:\\Users\\marij\\Downloads\\stick.png"));
+        Player player1 = new Player("C:\\Users\\marij\\Downloads\\stick.png", bob, boardTemp[1][2],playerImg);
+        player1.addHand(new Fire("C:\\Users\\marij\\Downloads\\fire.png", new Image(new FileInputStream("C:\\Users\\marij\\Downloads\\fire.png"))));
+
+        player1.addHand(new Ice("C:\\Users\\marij\\Downloads\\ice.png", new Image(new FileInputStream("C:\\Users\\marij\\Downloads\\ice.png"))));
+        player1.addHand(new DoubleMove("C:\\Users\\marij\\Downloads\\1.jpg", new Image(new FileInputStream("C:\\Users\\marij\\Downloads\\1.jpg"))));
+        player1.addHand(new Backtrack("C:\\Users\\marij\\Downloads\\back.png", new Image(new FileInputStream("C:\\Users\\marij\\Downloads\\back.png"))));
+
+        System.out.println(player1.sizeOfHand());
+        Player player2 = new Player("C:\\Users\\marij\\Downloads\\stick.png", sam, boardTemp[2][2], playerImg);
+        player2.addHand(new DoubleMove("C:\\Users\\marij\\Downloads\\1.jpg", new Image(new FileInputStream("C:\\Users\\marij\\Downloads\\1.jpg"))));
+
+
         Player[] playersArr = {player1, player2};
         Game itsAGame = new Game(playersArr, boardTemp, boardTemp[1][1], silkbag, 0, 2);
 
-
-        //testing player movement
-        //printPlace(itsAGame);
-        //System.out.println(itsAGame.movePlayer(itsAGame.players[1], false, false, false, true));
-        //printPlace(itsAGame);
-
-        //testing inserting new tile
-        //printBoard(itsAGame);
-        //FloorTile tempas = new FloorTile("path", true, false, true, true, true, "the new Tile");
-        //System.out.println(itsAGame.slideTile(2,2, tempas));
-        //printBoard(itsAGame);
-
-        //testing backTrack action tile
-        /*
-        printPlace(itsAGame);
-        System.out.println(itsAGame.movePlayer(itsAGame.players[0], true, false, false, false));
-        System.out.println(itsAGame.movePlayer(itsAGame.players[0], true, false, false, false));
-        System.out.println(itsAGame.movePlayer(itsAGame.players[0], false, false, true, false));
-        printPlace(itsAGame);
-        Backtrack back = new Backtrack("path");
-        back.ActionTile(itsAGame.players[0]);
-        System.out.println("going back");
-        printPlace(itsAGame);
-         */
-
-        //testing action tile DoubleMove
-        /*
-        System.out.println(itsAGame.getPlayer(0).getMovesPerTurn());
-        DoubleMove temp = new DoubleMove("path");
-        temp.ActionTile(itsAGame.getPlayer(0));
-        System.out.println(itsAGame.getPlayer(0).getMovesPerTurn());
-         */
-
-        //testing action tile fire
-        /*
-        Fire temp = new Fire("path");
-        temp.ActionTile(itsAGame.getPlayer(0));
-        //and now try changing the player location
-        System.out.println(itsAGame.getTileFromTheBoard(0,0).isOnFire);
-         */
-
-        //testing ice action tile
-        /*
-        printBoard(itsAGame);
-        Ice temp = new Ice("Path");
-        System.out.println("now freezing it");
-        temp.ActionTile(itsAGame.getPlayer(0));
-        System.out.println("now freezing it");
-        printBoard(itsAGame);
-        System.out.println("try to move a column that I could before");
-        FloorTile tempas = new FloorTile("path", true, false, true, true, true, "the new Tile");
-        System.out.println(itsAGame.slideTile(0,1, tempas));
-         */
-
-        //testing if a player is on a goal tile
-        //change the players position to the same one as the goals one
-        //System.out.println(itsAGame.hasWonTheGame());
-
-
+        launch(args);
     }
 
+
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+
+        Pane root = (Pane) FXMLLoader.load(getClass().getResource("sample.fxml"));
+
+        Scene scene = new Scene(root, 700, 700);
+        primaryStage.setTitle("Game");
+        primaryStage.setScene(scene);
+
+        primaryStage.show();
+    }
 }
