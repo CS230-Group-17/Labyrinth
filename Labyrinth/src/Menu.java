@@ -49,6 +49,10 @@ public class Menu extends Application {
         Title title = new Title("LABYRINTH");
         title.setTranslateX(50);
         title.setTranslateY(200);
+		
+		TextField tf = new TextField();
+        tf.setTranslateX(30);
+        tf.setTranslateY(400);
 
         String noOfPlayer[] =
                 { "1 PLAYER", "2 PLAYERS",
@@ -56,6 +60,8 @@ public class Menu extends Application {
 
         // Create a combo box
         ComboBox combo_box = new ComboBox(FXCollections.observableArrayList(noOfPlayer));
+		combo_box.setTranslateX(30);
+        combo_box.setTranslateY(300);
 
         /**EventHandler<ActionEvent> event =
          new EventHandler<ActionEvent>() {
