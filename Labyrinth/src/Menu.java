@@ -1,16 +1,15 @@
-package sample;
-
-import java.awt.event.ActionEvent;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.*;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import javafx.application.*;
 import javafx.collections.FXCollections;
 
-import javafx.event.EventHandler;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.stage.*;
@@ -30,9 +29,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.*;
-import javafx.event.EventHandler;
-
-import javax.swing.*;
 
 public class Menu extends Application {
 
@@ -41,7 +37,7 @@ public class Menu extends Application {
 
         root.setPrefSize(1050, 600);
 
-        try (InputStream is = Files.newInputStream(Paths.get("res/war1.jpg"))) {
+        try (InputStream is = Files.newInputStream(Paths.get("src/minotaur.jpg"))) {
             ImageView img = new ImageView(new Image(is));
             img.setFitWidth(1050);
             img.setFitHeight(600);
@@ -53,15 +49,19 @@ public class Menu extends Application {
         Title title = new Title("LABYRINTH");
         title.setTranslateX(50);
         title.setTranslateY(200);
+		
+		TextField tf = new TextField();
+        tf.setTranslateX(30);
+        tf.setTranslateY(400);
 
         String noOfPlayer[] =
                 { "1 PLAYER", "2 PLAYERS",
                         "3 PLAYERS", "4 PLAYERS" };
 
         // Create a combo box
-        ComboBox combo_box =
-                new ComboBox(FXCollections
-                        .observableArrayList(noOfPlayer));
+        ComboBox combo_box = new ComboBox(FXCollections.observableArrayList(noOfPlayer));
+		combo_box.setTranslateX(30);
+        combo_box.setTranslateY(300);
 
         /**EventHandler<ActionEvent> event =
          new EventHandler<ActionEvent>() {
@@ -86,7 +86,7 @@ public class Menu extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Scene scene = new Scene(createContent());
-        primaryStage.setTitle("LABYRINTH");
+        primaryStage.setTitle(getMessageOfTheDay());
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -166,6 +166,78 @@ public class Menu extends Application {
             });
 
         }
+    }
+    
+    private static String getMessageOfTheDay() throws IOException
+	{
+		//Getting the raw message data
+		URL url = new URL ("http://cswebcat.swansea.ac.uk/puzzle");
+		HttpURLConnection con = (HttpURLConnection) url.openConnection();
+		con.setRequestMethod("GET");
+		BufferedReader in = new BufferedReader(new InputStreamReader(
+		con.getInputStream()));
+		String input;
+		StringBuffer response = new StringBuffer();
+		while ((input = in.readLine())!=null)
+		{
+			response.append(input);
+		}
+		in.close();
+		String puzzleCode = response.toString();
+		
+		//Caesar Cipher
+		String s = shift(puzzleCode);//do the weird cipher
+		
+		//Formating
+		int len = puzzleCode.length();
+		puzzleCode = "CS-230" + s + (len+6); // s is the shifted puzzleCode
+		
+		//Get Solved Code
+		URL url2 = new URL ("http://cswebcat.swansea.ac.uk/message?solution=" + puzzleCode);
+		HttpURLConnection con2 = (HttpURLConnection) url2.openConnection();
+		con2.setRequestMethod("GET");
+		BufferedReader in2 = new BufferedReader(new InputStreamReader(
+		con2.getInputStream()));
+		String input2;
+		StringBuffer response2 = new StringBuffer();
+		while ((input2 = in2.readLine())!=null)
+		{
+			response2.append(input2);
+		}
+		in2.close();
+		String Message = response2.toString();
+		return Message;
+	}
+	
+	public static String shift(String text) 
+    { 
+        StringBuffer result= new StringBuffer(); 
+        for (int i=1; i<=text.length(); i++) 
+        { 
+        	int shift = 0;
+        	// setting shift values
+        	if (i % 2 ==0)
+        	{
+        	shift = i; // if placement = even
+        	}else
+        	{
+        	shift = -i; // else odd
+        	}
+        	
+        	//shift the char value
+        	int charAscii = (int)text.charAt(i-1);
+        	if(charAscii + shift > 90)
+        	{
+        		charAscii = ((charAscii+shift)-90) + 64;
+        	}
+        	else if (charAscii + shift < 65)
+        	{
+        		charAscii =  91- (65-(charAscii + shift));
+        	}
+        	else charAscii += shift;
+        	result.append((char)charAscii);
+        } 
+        return result.toString(); 
     }
 
     public static void main(String[] args) {
