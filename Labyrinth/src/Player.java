@@ -9,9 +9,7 @@ import java.util.ArrayList;
 * @author Cory Lagdon and Steffan Long
 * @version 1.0
 */
-public class Player
-{
-	// private FloorTile location; "Remove once floor tile class is done."
+public class Player {
 	private String imgPath;
 	private Image playerImage;
 	private PlayerProfile playerProfile;
