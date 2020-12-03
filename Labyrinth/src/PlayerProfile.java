@@ -1,5 +1,10 @@
 package sample;
 
+/**
+* This Class represents the profile of the player (information about the player).
+* @author Cory Lagdon and Steffan Long
+* @version 1.0
+*/
 public class PlayerProfile {
     private int losses;
     private int wins;

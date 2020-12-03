@@ -4,6 +4,11 @@ import javafx.scene.image.Image;
 
 import java.util.ArrayList;
 
+/**
+* This Class represents the Player.
+* @author Cory Lagdon and Steffan Long
+* @version 1.0
+*/
 public class Player
 {
 	// private FloorTile location; "Remove once floor tile class is done."
