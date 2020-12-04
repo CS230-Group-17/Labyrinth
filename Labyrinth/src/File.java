@@ -18,8 +18,7 @@ public class File {
 	 * @param selectedMap - the map specified to load 
 	 * @return an instance of the Game class instatiated from the selectedMap argument
 	 */
-	
-	
+
 	private String localisedDirStruct_PlayerProfile = "";
 	private String localisedDirStruct_Game = "";
 	private String localisedDirStruct_MAPS = "";
@@ -30,7 +29,7 @@ public class File {
 		FloorTile goalTile = new FloorTile(true, true, true, true, true);
 		ArrayList<Tile> silkBag = new ArrayList<Tile>();
 		ArrayList<FixedTile> fixedTiles = new ArrayList<FixedTile>();
-		Tile[][] board = new Tile[][]();
+		FloorTile[][] board = new FloorTile[][];
 		ArrayList<int[]> playerLocations = new ArrayList<int[]>();
 
 		//board data
@@ -138,12 +137,12 @@ public class File {
 		//add tile to board then remove it from silk bag
 		for (int i = 0; i < xSize; i++) {
 			Tile[] currentRowOfBoard = new Tile[];
-			for (int j = 0; i < xSize; j++) {
+			for (int j = 0; i < ySize; j++) {
 				int currentTile_index = i*xSize + j;
 				Tile tileToBoard = silkBag.get(currentTile_index);
-				if (tileToBoard != null) {
+				if ((tileToBoard != null) && (tileToBoard instanceof Tile)) {
 					currentRowOfBoard = addTileToEndOfRow(currentRowOfBoard, tileToBoard);
-					silkBag_memory.set(currentTile_index, null);
+					silkBag.set(currentTile_index, null);
 				} 
 			}
 			board[i] = currentRowOfBoard;
