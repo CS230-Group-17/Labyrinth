@@ -30,8 +30,7 @@ public class File {
 		FloorTile goalTile = new FloorTile(true, true, true, true, true);
 		ArrayList<Tile> silkBag = new ArrayList<Tile>();
 		ArrayList<FixedTile> fixedTiles = new ArrayList<FixedTile>();
-		ArrayList<Tile> silkBag_memory = new ArrayList<Tile>();
-		ArrayList<ArrayList<Tile>> board = new ArrayList<ArrayList<Tile>> ();
+		Tile[][] board = new Tile[][]();
 		ArrayList<int[]> playerLocations = new ArrayList<int[]>();
 
 		//board data
@@ -134,25 +133,38 @@ public class File {
 			silkBag.add(new ActionTile());
 		}
 		
-		//duplicate silkbag for creation of board
-		Collections.copy(silkBag_memory, silkBag);
 	
 		//create board from silk bag
 		//add tile to board then remove it from silk bag
 		for (int i = 0; i < xSize; i++) {
-			ArrayList<Tile> currentRowOfBoard = new ArrayList<Tile>();
+			Tile[] currentRowOfBoard = new Tile[];
 			for (int j = 0; i < xSize; j++) {
 				int currentTile_index = i*xSize + j;
 				Tile tileToBoard = silkBag.get(currentTile_index);
-				currentRowOfBoard.add(tileToBoard);
-				silkBag_memory.remove(currentTile_index);
+				if (tileToBoard != null) {
+					currentRowOfBoard = addTileToEndOfRow(currentRowOfBoard, tileToBoard);
+					silkBag_memory.set(currentTile_index, null);
+				} 
 			}
-			board.add(currentRowOfBoard);
+			board[i] = currentRowOfBoard;
 		}
 		
-		return new Game(Players, board, goalTile, silkBag_memory, 0, Players.size());
+		return new Game(Players, board, goalTile, silkBag, 0, Players.size());
 	}
 	
+    public static Tile[] addTileToEndOfRow(int arrayToAppend[], Tile element) 
+    { 
+        int i; 
+ 
+        int outputArray[] = new int[n + 1]; 
+        for (i = 0; i < n; i++) 
+        	outputArray[i] = arrayToAppend[i]; 
+ 
+        outputArray[arrayToAppend.length+1] = element; 
+ 
+        return outputArray; 
+    } 
+ 
 	
 	/**
 	 * Method to save the game
