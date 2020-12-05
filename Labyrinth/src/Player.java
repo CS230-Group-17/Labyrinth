@@ -39,7 +39,7 @@ public class Player {
 	 * Get the playerImage.
 	 * @return The player image.
 	 */
-	public Image getPlayerImage(){
+	public Image getPlayerImage() {
 		return playerImage;
 	}
 
@@ -55,8 +55,7 @@ public class Player {
 	 * Get the list of previous players.
 	 * @return The prevBtPlayers.
 	 */
-	public Player[] getPrevBtPlayers()
-	{
+	public Player[] getPrevBtPlayers() {
 		return prevBtPlayers;
 	}
 	
@@ -64,12 +63,9 @@ public class Player {
 	 * Adds a player to the list of backtracked players.
 	 * @param btdPlayer The player who has been backtracked.
 	 */
-	public void addPrevBtPlayers(Player btdPlayer)
-	{
-		for (int i = 0; i < prevBtPlayers.length-1; i++)
-		{
-			if (prevBtPlayers[i] == null)
-			{
+	public void addPrevBtPlayers(Player btdPlayer) {
+		for (int i = 0; i < prevBtPlayers.length-1; i++) {
+			if (prevBtPlayers[i] == null) {
 				prevBtPlayers[i] = btdPlayer;
 				break;
 			}
@@ -81,8 +77,7 @@ public class Player {
 	 * @param index The position of the tile in the array.
 	 * @return ActionTile An action tile from the array.
 	 */
-	public ActionTile getHand(int index)
-	{
+	public ActionTile getHand(int index) {
 	    return hand.get(index);
 	}
 
@@ -98,7 +93,7 @@ public class Player {
 	 * Get the size of the players hand.
 	 * @return hand.size() The size of the player's hand.
 	 */
-	public int sizeOfHand(){
+	public int sizeOfHand() {
 		return hand.size();
 	}
 	
@@ -114,8 +109,7 @@ public class Player {
 	 * Gets the image path of the player image.
 	 * @return imgPath The path of the player's image.
 	 */
-	public String getImage()
-	{
+	public String getImage() {
 		return imgPath;
 	}
 	
@@ -123,8 +117,7 @@ public class Player {
 	 * Gets the number of moves the players can do in a turn.
 	 * @return movesPerTurn The number of moves the player can do in a turn.
 	 */
-	public int getMovesPerTurn()
-	{
+	public int getMovesPerTurn() {
 		return movesPerTurn;
 	}
 	
@@ -132,14 +125,10 @@ public class Player {
 	 * Sets the amount of moves the player can do this turn.
 	 * @param num The amount of moves the player can do in a turn. 
 	 */
-	public void setMovesPerTurn(int num)
-	{
-		if (num > 2)
-		{
+	public void setMovesPerTurn(int num) {
+		if (num > 2) {
 			num = 2;
-		}
-		else if (num < 0)
-		{
+		} else if (num < 0) {
 			num = 0;
 		}
 		
@@ -152,7 +141,7 @@ public class Player {
 	 */
 	 public void updateGetBackTiles(FloorTile pastTile) {
 		 backTiles.add(0, pastTile);
-		 if(backTiles.size() > 2) {
+		 if (backTiles.size() > 2) {
 			backTiles.remove(2);
 		}
 	 }
@@ -162,9 +151,9 @@ public class Player {
 	 * @return temp The last tile that the player visited. 
 	 */
 	 public FloorTile getBackTiles() {
-	 	if(backTiles.size() == 0){
+	 	if (backTiles.size() == 0) {
 	 		return null;
-		}else {
+		} else {
 			FloorTile temp = backTiles.get(0);
 			backTiles.remove(0);
 			return temp;

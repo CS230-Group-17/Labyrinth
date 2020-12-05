@@ -17,6 +17,8 @@ import java.io.FileNotFoundException;
 
 
 public class Controller {
+	public static int xtile = -1;
+	public static int ytile = -1;
     @FXML private GridPane actionCol;
     @FXML private GridPane boardCol;
     @FXML private ImageView currTile;
@@ -30,8 +32,6 @@ public class Controller {
     private Button[] playerButtons = new Button[Game.numOfPlayers];
     private ImageView[] playersOnBoard = new ImageView[Game.numOfPlayers];
     private int curAcion = 0;
-    public static int xtile = -1;
-    public static int ytile = -1;
     private int selectedActionTile = -1;
     private int chosenPlayer = -1;
     private String fire = "C:\\Users\\marij\\Downloads\\fire.png";
@@ -48,10 +48,9 @@ public class Controller {
     private boolean madeAMove;
 
 
-
     @FXML
     public void initialize() throws FileNotFoundException {
-        prepForUI();
+    	prepForUI();
 
         iceandFireIm = new Image(new FileInputStream(fireandice));
         iceIm = new Image(new FileInputStream(ice));
@@ -65,17 +64,17 @@ public class Controller {
 
     @FXML
     public void refreshTheBoard() {
-        boardCol.setMinSize(50,50);
+    	boardCol.setMinSize(50,50);
         boardCol.getChildren().clear();
         //boardCol.setGridLinesVisible(true);
 
         int x = 0;
         int y = 0;
-        for(int j = -1; j < Game.board[0].length+1; j++){
-            for (int i = -1; i < Game.board.length+1; i++) {
-                if(i >= 0 && j >= 0 && j < Game.board[0].length && i < Game.board.length) {
+        for(int j = -1; j < Game.board[0].length+1; j++) {
+        	for (int i = -1; i < Game.board.length+1; i++) {
+        		if(i >= 0 && j >= 0 && j < Game.board[0].length && i < Game.board.length) {
 
-                    ImageView imageView = new ImageView(Game.board[i][j].getImage());
+        			ImageView imageView = new ImageView(Game.board[i][j].getImage());
                     imageView.setFitWidth(50);
                     imageView.setPreserveRatio(true);
                     imageView.setBlendMode(BlendMode.MULTIPLY);
@@ -86,9 +85,9 @@ public class Controller {
                     Button button = new Button();
                     button.setStyle("-fx-padding: 0");
                     button.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-                    if(Game.board[i][j].isFrozen && Game.board[i][j].isOnFire){
+                    if(Game.board[i][j].isFrozen && Game.board[i][j].isOnFire) {
 
-                        ImageView imageViewIceandFire = new ImageView(iceandFireIm);
+                    	ImageView imageViewIceandFire = new ImageView(iceandFireIm);
                         imageViewIceandFire.setFitWidth(50);
                         imageViewIceandFire.setPreserveRatio(true);
 
@@ -97,7 +96,7 @@ public class Controller {
 
 
 
-                    }else if(Game.board[i][j].isFrozen){
+                    }else if(Game.board[i][j].isFrozen) {
 
                         ImageView imageViewIce = new ImageView(iceIm);
                         imageViewIce.setFitWidth(50);
@@ -106,7 +105,7 @@ public class Controller {
                         blend = new Group(imageViewIce, imageView);
 
 
-                    }else if(Game.board[i][j].isOnFire) {
+                    } else if(Game.board[i][j].isOnFire) {
 
                         ImageView imageViewFire = new ImageView(fireIm);
                         imageViewFire.setFitWidth(50);
@@ -115,14 +114,14 @@ public class Controller {
 
 
                     }else {
-                        blend = new Group(imageView);
+                    	blend = new Group(imageView);
                     }
                     button.setGraphic(blend);
 
                     int finalI = i;
                     int finalJ = j;
                     button.setOnAction(value -> {
-                        xtile = finalJ;
+                    	xtile = finalJ;
                         ytile = finalI;
                         if(Game.players[Game.currentTurn % Game.numOfPlayers].getHand(selectedActionTile).ActionTile(Game.players[Game.currentTurn % Game.numOfPlayers])) {
                             infoLable.setText("");
@@ -149,8 +148,8 @@ public class Controller {
 
 
                     for(int k = 0; k < Game.players.length; k++) {
-                        if(Game.players[k].getPosition() == Game.board[i][j]) {
-                            ImageView imageViewPlay = new ImageView(Game.players[k].getPlayerImage());
+                    	if(Game.players[k].getPosition() == Game.board[i][j]) {
+                    		ImageView imageViewPlay = new ImageView(Game.players[k].getPlayerImage());
                             imageViewPlay.setFitWidth(50);
                             imageViewPlay.setPreserveRatio(true);
                             imageViewPlay.toFront();
@@ -160,22 +159,22 @@ public class Controller {
                     }
 
                 }else if(!(x == 0 && y == 0) && !(x == 0 && y == Game.board.length+1) &&
-                        (!(x == Game.board[0].length+1 && y == 0) && !(x == Game.board[0].length+1 && y == Game.board.length+1))){
+                		(!(x == Game.board[0].length+1 && y == 0) && !(x == Game.board[0].length+1 && y == Game.board.length+1))) {
                     boolean willChange = true;
                     if((x == 0 || x == Game.board[0].length+1) && y < Game.board.length+1 && y > 0){
 
-                        for(int k = 0; k < Game.board[0].length; k++){
+                        for(int k = 0; k < Game.board[0].length; k++) {
 
-                            if(Game.board[y-1][k].isFrozen || Game.board[y-1][k].isFixedTile()){
+                            if(Game.board[y-1][k].isFrozen || Game.board[y-1][k].isFixedTile()) {
                                 willChange = false;
                             }
                         }
                     }
-                    else if((y == 0 || y == Game.board.length+1) && x < Game.board[0].length+1 && x > 0){
+                    else if((y == 0 || y == Game.board.length+1) && x < Game.board[0].length+1 && x > 0) {
 
-                        for(int k = 0; k < Game.board.length; k++){
+                    	for(int k = 0; k < Game.board.length; k++) {
 
-                            if(Game.board[k][x-1].isFrozen || Game.board[k][x-1].isFixedTile()){
+                            if(Game.board[k][x-1].isFrozen || Game.board[k][x-1].isFixedTile()) {
                                 willChange = false;
                             }
                         }
@@ -192,18 +191,18 @@ public class Controller {
                         button1.setOnAction(value -> {
                             int yy = finalY;
                             int xx = finalX;
-                            if(finalY == 0){
+                            if(finalY == 0) {
                                 //yy++;
-                            }else if(yy == currentTiles.length+1){
+                            } else if(yy == currentTiles.length+1) {
                                 yy = yy - 2;
-                            }else {
+                            } else {
                                 yy = yy - 1;
                             }
                             if(xx == 0){
                                 //xx++;
-                            }else if(xx == currentTiles[0].length+1){
+                            } else if(xx == currentTiles[0].length+1) {
                                 xx = xx - 2;
-                            }else{
+                            } else{
                                 xx = xx - 1;
                             }
                             if(insertOnce && curentTile instanceof FloorTile) {
@@ -215,7 +214,7 @@ public class Controller {
 
                         });
                         boardCol.add(button1, x, y, 1, 1);
-                    }else {
+                    } else {
                         Button inv = new Button("");
                         inv.setVisible(false);
                         boardCol.add(inv, x, y, 1, 1);
@@ -229,7 +228,7 @@ public class Controller {
         }
 
 
-        if(!Game.canPlayerMove(Game.players[Game.currentTurn % Game.numOfPlayers]) && !madeAMove){
+        if(!Game.canPlayerMove(Game.players[Game.currentTurn % Game.numOfPlayers]) && !madeAMove) {
             madeAMove = true;
         }
 
@@ -238,18 +237,18 @@ public class Controller {
     @FXML
     private void nextTurn() {
 
-        if((insertOnce && curentTile instanceof FloorTile) ){
+        if((insertOnce && curentTile instanceof FloorTile) ) {
             infoLable.setText("You must insert the FloorTile that you have!");
         } else {
-            if(!madeAMove){
+            if(!madeAMove) {
                 infoLable.setText("You must make a move!");
-            }else if(curentTile instanceof ActionTile){
-                Game.players[Game.currentTurn % Game.numOfPlayers].addHand((ActionTile) curentTile);
+            } else if(curentTile instanceof ActionTile) {
+            	Game.players[Game.currentTurn % Game.numOfPlayers].addHand((ActionTile) curentTile);
                 Game.currentTurn++;
                 prepForUI();
                 Game.removeIceAndFire();
                 refreshTheBoard();
-            }else{
+            } else {
                 Game.currentTurn++;
                 prepForUI();
                 Game.removeIceAndFire();
@@ -265,22 +264,22 @@ public class Controller {
         if(Game.players[Game.currentTurn % Game.numOfPlayers].getMovesPerTurn() > 0 && !madeAMove && !insertOnce) {
             switch (evt.getCode()) {
                 case UP:
-                    if(Game.movePlayer(Game.players[Game.currentTurn % Game.numOfPlayers], false, false, false, true)){
+                    if(Game.movePlayer(Game.players[Game.currentTurn % Game.numOfPlayers], false, false, false, true)) {
                         movmentUpdate();
                     }
                     break;
                 case DOWN:
-                    if(Game.movePlayer(Game.players[Game.currentTurn % Game.numOfPlayers], false, false, true, false)){
+                    if(Game.movePlayer(Game.players[Game.currentTurn % Game.numOfPlayers], false, false, true, false)) {
                         movmentUpdate();
                     }
                     break;
                 case LEFT:
-                    if(Game.movePlayer(Game.players[Game.currentTurn % Game.numOfPlayers], false, true, false, false)){
+                    if(Game.movePlayer(Game.players[Game.currentTurn % Game.numOfPlayers], false, true, false, false)) {
                         movmentUpdate();
                     }
                     break;
                 case RIGHT:
-                    if(Game.movePlayer(Game.players[Game.currentTurn % Game.numOfPlayers], true, false, false, false)){
+                    if(Game.movePlayer(Game.players[Game.currentTurn % Game.numOfPlayers], true, false, false, false)) {
                         movmentUpdate();
                     }
                     break;
@@ -288,13 +287,13 @@ public class Controller {
 
         }
 
-        if(insertOnce && Game.players[Game.currentTurn % Game.numOfPlayers].getMovesPerTurn() > 0){
+        if(insertOnce && Game.players[Game.currentTurn % Game.numOfPlayers].getMovesPerTurn() > 0) {
             infoLable.setText("You must insert a tile before moving");
         }
     }
 
     private void movmentUpdate() {
-        Game.players[Game.currentTurn % Game.numOfPlayers].setMovesPerTurn(Game.players[Game.currentTurn % Game.numOfPlayers].getMovesPerTurn() -1);
+    	Game.players[Game.currentTurn % Game.numOfPlayers].setMovesPerTurn(Game.players[Game.currentTurn % Game.numOfPlayers].getMovesPerTurn() -1);
         turnsLable.setText("Moves left:" + Game.players[Game.currentTurn % Game.numOfPlayers].getMovesPerTurn());
         if(Game.players[Game.currentTurn % Game.numOfPlayers].getMovesPerTurn() == 0) {
             madeAMove = true;
@@ -378,7 +377,7 @@ public class Controller {
 
 
 
-    private void tileLoop(boolean statement){
+    private void tileLoop(boolean statement) {
         for(int k = 0; k < Game.board.length; k++) {
             for (int j = 0; j < Game.board[0].length; j++) {
                 currentTiles[k][j].setDisable(statement);
@@ -391,7 +390,7 @@ public class Controller {
         actionCol.getChildren().clear();
         actionCol.setGridLinesVisible(true);
 
-        for(int i = 0; i < Game.players[player].sizeOfHand() && i < 3; i++){
+        for(int i = 0; i < Game.players[player].sizeOfHand() && i < 3; i++) {
 
             ImageView imageView = new ImageView(Game.players[player].getHand(i + hand).getImage());
             imageView.setFitWidth(50);
@@ -427,11 +426,11 @@ public class Controller {
                         turnsLable.setText("Moves left:" + Game.players[Game.currentTurn % Game.numOfPlayers].getMovesPerTurn());
                     }
                     usedAction = true;
-                }else if(usedAction) {
+                } else if (usedAction) {
                     infoLable.setText("you have used action tile already");
-                }else if(madeAMove){
+                } else if (madeAMove) {
                     infoLable.setText("you cant use action tile after you moved");
-                }else {
+                } else {
                     infoLable.setText("you must first insert a tile");
                 }
             });
@@ -446,9 +445,9 @@ public class Controller {
         for(int i = 0; i < Game.numOfPlayers; i++) {
             if(Game.currentTurn % Game.numOfPlayers != i){
                 boolean doseNotExist = true;
-                for(int j = 0; j < temp.length; j++){
+                for(int j = 0; j < temp.length; j++) {
                     if(temp[j] != null){
-                        if(Game.players[i] == temp[j]){
+                        if(Game.players[i] == temp[j]) {
                             doseNotExist = false;
                         }
                     }

@@ -6,9 +6,9 @@ package sample;
 * @version 1.0
 */
 public class PlayerProfile {
+	private final String name;
     private int losses;
     private int wins;
-    private final String name;
     private int gamesPlayed;
 
     /**

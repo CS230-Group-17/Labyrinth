@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class Ice extends ActionTile {
 
-    public Ice(String imgPath, Image tileImage) {
+    public Ice (String imgPath, Image tileImage) {
         super(imgPath, tileImage);
     }
 
@@ -24,7 +24,7 @@ public class Ice extends ActionTile {
         ArrayList<FloorTile> temp = Game.getEffectedTiles();
 
 
-        for(FloorTile tile : temp){
+        for (FloorTile tile : temp){
             tile.isFrozen = true;
             tile.isFrozenForTheNextNTurns = Game.currentTurn + Game.numOfPlayers;
         }

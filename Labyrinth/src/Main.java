@@ -24,16 +24,16 @@ import javax.swing.*;
 
 public class Main extends Application {
 
-    public static void printPlace(Game itsAGame){
-        for(int i = 0; i < itsAGame.board.length; i++){
-            for(int j = 0; j < itsAGame.board[i].length; j++) {
+    public static void printPlace(Game itsAGame) {
+        for (int i = 0; i < itsAGame.board.length; i++) {
+            for (int j = 0; j < itsAGame.board[i].length; j++) {
                 boolean isPlayer = false;
-                for (int o = 0; o < itsAGame.numOfPlayers; o++){
-                    if(itsAGame.players[o].getPosition() == itsAGame.board[i][j]) {
+                for (int o = 0; o < itsAGame.numOfPlayers; o++) {
+                	if (itsAGame.players[o].getPosition() == itsAGame.board[i][j]) {
                         isPlayer = true;
                     }
                 }
-                if(isPlayer) {
+                if (isPlayer) {
                     System.out.print("*");
                 }
                 System.out.print("  |  ");
@@ -42,10 +42,10 @@ public class Main extends Application {
         }
     }
 
-    public static void printBoard(Game itsAGame){
-        for(int i = 0; i < itsAGame.board.length; i++){
-            for(int j = 0; j < itsAGame.board[i].length; j++) {
-                if(itsAGame.board[i][j].isFrozen) {
+    public static void printBoard(Game itsAGame) {
+        for (int i = 0; i < itsAGame.board.length; i++) {
+            for (int j = 0; j < itsAGame.board[i].length; j++) {
+                if (itsAGame.board[i][j].isFrozen) {
                     System.out.print("*");
                 }
                 System.out.print("  |  ");
@@ -54,9 +54,9 @@ public class Main extends Application {
         }
     }
 
-    public static void printWhereIceIsPresent(Game itsAGame){
-        for(int i = 0; i < itsAGame.board.length; i++){
-            for(int j = 0; j < itsAGame.board[i].length; j++) {
+    public static void printWhereIceIsPresent(Game itsAGame) {
+        for (int i = 0; i < itsAGame.board.length; i++) {
+            for (int j = 0; j < itsAGame.board[i].length; j++) {
                 System.out.print(itsAGame.board[i][j].name + "       ");
             }
             System.out.println();

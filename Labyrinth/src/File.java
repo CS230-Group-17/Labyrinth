@@ -65,7 +65,8 @@ public class File {
 		
 		for (String curFixedTile: fixedTilesStringData) {
 			String[] curArgs = curFixedTile.split(",");
-			FixedTile FixedTileObj = new FixedTile(Boolean.parseBoolean(curArgs[2]), Boolean.parseBoolean(curArgs[3]), Boolean.parseBoolean(curArgs[4]), Boolean.parseBoolean(curArgs[5]),
+			FixedTile FixedTileObj = new FixedTile(Boolean.parseBoolean(curArgs[2]), 
+												   Boolean.parseBoolean(curArgs[3]), Boolean.parseBoolean(curArgs[4]), Boolean.parseBoolean(curArgs[5]),
 										 		   Boolean.parseBoolean(curArgs[6]), Integer.parseInt(curArgs[0]), Integer.parseInt(curArgs[1]));
 					
 			fixedTiles.add(FixedTileObj);
@@ -151,14 +152,14 @@ public class File {
 		return new Game(Players, board, goalTile, silkBag, 0, Players.size());
 	}
 	
-    public static Tile[] addTileToEndOfRow(int arrayToAppend[], Tile element) 
-    { 
+    public static Tile[] addTileToEndOfRow(int arrayToAppend[], Tile element) { 
         int i; 
  
         int outputArray[] = new int[n + 1]; 
-        for (i = 0; i < n; i++) 
+        for (i = 0; i < n; i++) {
         	outputArray[i] = arrayToAppend[i]; 
- 
+        }
+        	
         outputArray[arrayToAppend.length+1] = element; 
  
         return outputArray; 
@@ -191,8 +192,10 @@ public class File {
 			boolean direction_south = currentFixedTile.getSouth();
 			boolean direction_west = currentFixedTile.getWest();
 			boolean isFixed = currentFixedTile.isFixedTile();
-			fixedTilesString += (String.valueOf(xValue) + "," + String.valueOf(yValue) + "," + String.valueOf(direction_north)
-			+ "," + String.valueOf(direction_east) + "," + String.valueOf(direction_south) + "," + String.valueOf(direction_west) + "," + String.valueOf(isFixed) + "$" );
+			fixedTilesString += (String.valueOf(xValue) + "," + String.valueOf(yValue) + "," 
+			+ String.valueOf(direction_north) + "," + String.valueOf(direction_east) + ","
+			+ String.valueOf(direction_south) + "," + String.valueOf(direction_west) + ","
+			+ String.valueOf(isFixed) + "$" );
 		}
 		
 		gameWriter.println(fixedTilesString);
@@ -209,8 +212,9 @@ public class File {
 			boolean direction_south = currentFloorTile.getSouth();
 			boolean direction_west = currentFloorTile.getWest();
 			boolean isFixed = currentFloorTile.isFixedTile();
-			boardString += (String.valueOf(direction_north)+ "," + String.valueOf(direction_east) + "," 
-			+ String.valueOf(direction_south) + "," + String.valueOf(direction_west) + "," + String.valueOf(isFixed) + "$");
+			boardString += (String.valueOf(direction_north)+ "," 
+			+ String.valueOf(direction_east) + "," + String.valueOf(direction_south) 
+			+ "," + String.valueOf(direction_west) + "," + String.valueOf(isFixed) + "$");
 		}
 		
 		gameWriter.println(boardString);
@@ -245,8 +249,10 @@ public class File {
 			}
 		}
 		
-		gameWriter.println(String.valueOf(numOfStraight)+","+String.valueOf(numOfCorners)+","+String.valueOf(numOfTShape)+","+
-				String.valueOf(numOfFireTile)+","+String.valueOf(numOfFireTile)+","+String.valueOf(numOfBacktrackTile)+","+String.valueOf(numOfDoubleMoveTiles));
+		gameWriter.println(String.valueOf(numOfStraight) + "," + String.valueOf(numOfCorners)+ ","
+				+ String.valueOf(numOfTShape) + ","
+				+ String.valueOf(numOfFireTile) + "," + String.valueOf(numOfFireTile) + ","
+				+ String.valueOf(numOfBacktrackTile) + "," + String.valueOf(numOfDoubleMoveTiles));
 		
 		gameWriter.flush();  
 		gameWriter.close();  

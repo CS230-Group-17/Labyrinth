@@ -19,7 +19,7 @@ public abstract class Tile {
         return imgPath;
     }
 
-    public Image getImage(){
+    public Image getImage() {
         return tileImage;
     }
 

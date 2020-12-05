@@ -8,8 +8,8 @@ import javafx.scene.image.Image;
  */
 public class Backtrack extends ActionTile {
 
-    public Backtrack(String imgPath, Image tileImage){
-        super(imgPath, tileImage);
+    public Backtrack(String imgPath, Image tileImage) {
+    	super(imgPath, tileImage);
     }
 
     /**
@@ -18,19 +18,19 @@ public class Backtrack extends ActionTile {
      */
     @Override
     public boolean ActionTile(Player player) {
-        Player effectedPlayer = Game.getEffectedPlayers(player);
+    	Player effectedPlayer = Game.getEffectedPlayers(player);
 
         //find if the previous location tile still exist on the board
         boolean tileFound = true;//if tile not found, do not proceed with the next tile search
         for(int j = 0; j < 2 && tileFound; j++) {
 
-            tileFound = false;
+        	tileFound = false;
             FloorTile temp = effectedPlayer.getBackTiles();//for what tile we are searching
 
             for (int i = 0; i < Game.board.length && temp != null; i++) {
-                for (int e = 0; e < Game.board[i].length; e++) {
-                    if (Game.board[i][e] == temp) {
-                        effectedPlayer.setPosition(temp);
+            	for (int e = 0; e < Game.board[i].length; e++) {
+            		if (Game.board[i][e] == temp) {
+            			effectedPlayer.setPosition(temp);
                         tileFound = true;
                     }
                 }

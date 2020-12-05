@@ -21,13 +21,13 @@ public class Fire extends ActionTile {
     public boolean ActionTile(Player player) {
         ArrayList<FloorTile> temp = Game.getEffectedTiles();
         boolean ret = isIsSafeToSetFire(temp);
-        if(ret) {
-            for(FloorTile tile : temp){
-                tile.isOnFire = true;
+        if (ret) {
+        	for (FloorTile tile : temp) {
+        		tile.isOnFire = true;
                 tile.isOnFireForTheNextNTurns = Game.currentTurn + (2 * Game.numOfPlayers);
-                }
+            }
 
-        }else {
+        } else {
             System.out.println("there are players in that area");
         }
         return ret;
@@ -38,12 +38,12 @@ public class Fire extends ActionTile {
      * @param field the 3 by 3 filed on the board
      * @return true if there are no players on the field and false otherwise
      */
-    private boolean isIsSafeToSetFire(ArrayList<FloorTile> field){
+    private boolean isIsSafeToSetFire(ArrayList<FloorTile> field) {
         boolean noPlayers = true;
 
-        for(FloorTile tile : field){
-            for(int k = 0; k < Game.numOfPlayers; k++) {
-                if(Game.players[k].getPosition() == tile) {
+        for (FloorTile tile : field) {
+            for (int k = 0; k < Game.numOfPlayers; k++) {
+                if (Game.players[k].getPosition() == tile) {
                     noPlayers = false;
                 }
             }

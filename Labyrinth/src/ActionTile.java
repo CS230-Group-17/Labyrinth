@@ -8,7 +8,7 @@ import javafx.scene.image.Image;
 public abstract class ActionTile extends Tile {
 
     public ActionTile(String imgPath, Image tileImage) {
-        super(imgPath, tileImage);
+    	super(imgPath, tileImage);
     }
 
 

@@ -4,8 +4,8 @@ public class FixedTile extends FloorTile{
     private int x = 0;
     private int y = 0;
     
-    public FloorTile(String imgPath, boolean fixedTile, boolean north, boolean east,
-            boolean south, boolean west, String name, int x, int y) {
+    public FloorTile(String imgPath, boolean fixedTile, boolean north, boolean east, 
+    		boolean south, boolean west, String name, int x, int y) {
     	super(imgPath);
     	super(fixedTile);
     	super(north);

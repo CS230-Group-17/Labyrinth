@@ -168,8 +168,7 @@ public class Menu extends Application {
         }
     }
     
-    private static String getMessageOfTheDay() throws IOException
-	{
+    private static String getMessageOfTheDay() throws IOException {
 		//Getting the raw message data
 		URL url = new URL ("http://cswebcat.swansea.ac.uk/puzzle");
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -209,29 +208,22 @@ public class Menu extends Application {
 		return Message;
 	}
 	
-	public static String shift(String text) 
-    { 
+	public static String shift(String text) { 
         StringBuffer result= new StringBuffer(); 
-        for (int i=1; i<=text.length(); i++) 
-        { 
+        for (int i=1; i<=text.length(); i++) { 
         	int shift = 0;
         	// setting shift values
-        	if (i % 2 ==0)
-        	{
+        	if (i % 2 ==0) {
         	shift = i; // if placement = even
-        	}else
-        	{
+        	} else {
         	shift = -i; // else odd
         	}
         	
         	//shift the char value
         	int charAscii = (int)text.charAt(i-1);
-        	if(charAscii + shift > 90)
-        	{
+        	if(charAscii + shift > 90) {
         		charAscii = ((charAscii+shift)-90) + 64;
-        	}
-        	else if (charAscii + shift < 65)
-        	{
+        	} else if (charAscii + shift < 65) {
         		charAscii =  91- (65-(charAscii + shift));
         	}
         	else charAscii += shift;
@@ -241,7 +233,6 @@ public class Menu extends Application {
     }
 
     public static void main(String[] args) {
-
         launch(args);
     }
 }

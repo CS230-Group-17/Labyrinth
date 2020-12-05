@@ -11,8 +11,8 @@ public class Game {
     public static int currentTurn;
     public static Player[] players;//this for testing
     public static FloorTile[][] board;//FloorTile
-    private FloorTile goalTile;
     public static ArrayList<Tile> silkBag = new ArrayList<Tile>();
+    private FloorTile goalTile;
 
     public Game(Player[] players, FloorTile[][] board, FloorTile goalTile,
                 ArrayList<Tile> silkBag, int currentTurn, int numOfPlayers) {
@@ -24,7 +24,7 @@ public class Game {
         this.goalTile = goalTile;
     }
 
-    public void nextTurn(){
+    public void nextTurn() {
         removeIceAndFire();
         currentTurn++;
     }
@@ -67,9 +67,9 @@ public class Game {
         FloorTile oldTile1 = newTile;
         FloorTile oldTile2;
         boolean isNotFixed = true;
-        if(row == 0 || row == board.length-1){//determine that the columns will be changed
+        if(row == 0 || row == board.length-1) {//determine that the columns will be changed
             for (int i = 0; i < board.length; i++) {//check if there are any fixed or frozen tiles in the col
-                if(board[i][col].isFixedTile() || board[i][col].isFrozen){
+                if(board[i][col].isFixedTile() || board[i][col].isFrozen) {
                     isNotFixed = false;
                 }
             }
@@ -81,21 +81,21 @@ public class Game {
                     board[i][col] = oldTile1;
                     oldTile1 = oldTile2;
                 }
-            }else if(isNotFixed) {
+            } else if(isNotFixed) {
 
                 for(int i = board.length-1; i >= 0; i--) {
                     oldTile2 = board[i][col];
                     board[i][col] = oldTile1;
                     oldTile1 = oldTile2;
                 }
-            }else {
+            } else {
                 return false;
             }
         }else {//determine that the rows will be changed
 
             for (int i = 0; i < board[row].length; i++) {
-                if(board[row][i].isFixedTile() || board[i][col].isFrozen){
-                    isNotFixed = false;
+                if(board[row][i].isFixedTile() || board[i][col].isFrozen) {
+                    isNotFixed = false; 
                 }
             }
 
@@ -106,13 +106,13 @@ public class Game {
                     oldTile1 = oldTile2;
                 }
 
-            }else if(isNotFixed) {
+            } else if(isNotFixed) {
                 for(int i = board[row].length-1; i >= 0; i--) {
                     oldTile2 = board[row][i];
                     board[row][i] = oldTile1;
                     oldTile1 = oldTile2;
                 }
-            }else {
+            } else {
                 return false;
             }
 
@@ -149,9 +149,9 @@ public class Game {
         int nX;
         int nY;
         //finding the player on the board
-        for(int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
-                if(player.getPosition() == board[i][j]) {
+        for (int i = 0; i < board.length; i++) {
+        	for (int j = 0; j < board[i].length; j++) {
+                if (player.getPosition() == board[i][j]) {
                     playerX = i;
                     playerY = j;
                 }
@@ -160,40 +160,40 @@ public class Game {
         //making sure that the player stays on the board
         if(playerY == board[0].length-1 && right) {
             return false;
-        }else if(playerY == 0 && left) {
+        } else if (playerY == 0 && left) {
             return false;
-        }else if(playerX == 0 && up) {
+        } else if (playerX == 0 && up) {
             return false;
-        }else if(playerX == board.length-1 && down) {
+        } else if (playerX == board.length-1 && down) {
             return false;
-        }else if(right) {
+        } else if(right) {
             nX = playerX;
             nY = playerY+1;
-            if(board[nX][nY].west && board[playerX][playerY].east && !board[nX][nY].isOnFire){//if the tile will accept the player
+            if (board[nX][nY].west && board[playerX][playerY].east && !board[nX][nY].isOnFire){//if the tile will accept the player
                 player.updateGetBackTiles(player.getPosition());
                 player.setPosition(board[nX][nY]);
                 return true;
             }
-        }else if(left) {
+        } else if(left) {
             nX = playerX;
             nY = playerY-1;
-            if(board[nX][nY].east && board[playerX][playerY].west && !board[nX][nY].isOnFire){
+            if (board[nX][nY].east && board[playerX][playerY].west && !board[nX][nY].isOnFire){
                 player.updateGetBackTiles(player.getPosition());
                 player.setPosition(board[nX][nY]);
                 return true;
             }
-        }else if(up) {
+        } else if(up) {
             nX = playerX-1;
             nY = playerY;
-            if(board[nX][nY].south && board[playerX][playerY].north && !board[nX][nY].isOnFire){
+            if (board[nX][nY].south && board[playerX][playerY].north && !board[nX][nY].isOnFire){
                 player.updateGetBackTiles(player.getPosition());
                 player.setPosition(board[nX][nY]);
                 return true;
             }
-        }else if(down) {
+        } else if (down) {
             nX = playerX+1;
             nY = playerY;
-            if(board[nX][nY].north && board[playerX][playerY].south && !board[nX][nY].isOnFire){
+            if (board[nX][nY].north && board[playerX][playerY].south && !board[nX][nY].isOnFire){
                 player.updateGetBackTiles(player.getPosition());
                 player.setPosition(board[nX][nY]);
                 return true;
@@ -205,13 +205,13 @@ public class Game {
     /**
      *removes the fire and Ice from the board after certain turns
      */
-    public static void removeIceAndFire(){
-        for(int i = 0; i < board.length; i++) {
+    public static void removeIceAndFire() {
+        for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
-                if(board[i][j].isOnFireForTheNextNTurns == currentTurn){
+                if (board[i][j].isOnFireForTheNextNTurns == currentTurn) {
                     board[i][j].isOnFire = false;
                 }
-                if(board[i][j].isFrozenForTheNextNTurns == currentTurn){
+                if (board[i][j].isFrozenForTheNextNTurns == currentTurn) {
                     board[i][j].isFrozen = false;
                 }
             }
@@ -223,10 +223,10 @@ public class Game {
      * @return the player who has won the game
      */
     public Player hasWonTheGame() {
-        for(int i = 0; i < board.length; i++) {
+        for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
-                for(int k = 0; k < numOfPlayers; k++) {
-                    if(players[k].getPosition() == board[i][j]){
+                for (int k = 0; k < numOfPlayers; k++) {
+                    if (players[k].getPosition() == board[i][j]) {
                         return players[k];
                     }
                 }
@@ -253,9 +253,9 @@ public class Game {
         int nX;
         int nY;
         //finding the player on the board
-        for(int i = 0; i < board.length; i++) {
+        for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
-                if(player.getPosition() == board[i][j]) {
+                if (player.getPosition() == board[i][j]) {
                     playerX = i;
                     playerY = j;
                 }
@@ -263,7 +263,7 @@ public class Game {
         }
         //making sure that the player stays on the board
 
-        if(playerY != board[0].length-1) {
+        if (playerY != board[0].length-1) {
             nX = playerX;
             nY = playerY + 1;
             if (board[nX][nY].west && board[playerX][playerY].east && !board[nX][nY].isOnFire) {//if the tile will accept the player
@@ -271,7 +271,7 @@ public class Game {
             }
         }
 
-        if(playerY != 0) {
+        if (playerY != 0) {
             nX = playerX;
             nY = playerY - 1;
             if (board[nX][nY].east && board[playerX][playerY].west && !board[nX][nY].isOnFire) {
@@ -279,7 +279,7 @@ public class Game {
             }
         }
 
-        if(playerX != 0) {
+        if (playerX != 0) {
             nX = playerX - 1;
             nY = playerY;
             if (board[nX][nY].south && board[playerX][playerY].north && !board[nX][nY].isOnFire) {
@@ -287,7 +287,7 @@ public class Game {
             }
         }
 
-        if(playerX != board.length-1) {
+        if (playerX != board.length-1) {
             nX = playerX + 1;
             nY = playerY;
             if (board[nX][nY].north && board[playerX][playerY].south && !board[nX][nY].isOnFire) {
@@ -308,7 +308,7 @@ public class Game {
      */
     public PlayerProfile[] getLeaderboardOrdered() {
         PlayerProfile[] temp = new PlayerProfile[players.length];
-        for(int i = 0; i < players.length; i++) {
+        for (int i = 0; i < players.length; i++) {
             temp[i] = players[i].getPlayerProfile();
         }
         int n = temp.length;
@@ -325,7 +325,7 @@ public class Game {
         return temp;
     }
 
-    public FloorTile[][] getBoard(){
+    public FloorTile[][] getBoard() {
         return board;
     }
 
@@ -341,9 +341,9 @@ public class Game {
     public static ArrayList<FloorTile> getEffectedTiles() {
 
         ArrayList<FloorTile> temp = new ArrayList<>();
-        for(int i = Controller.ytile-1; i < Controller.ytile + 2; i++) {
-            for(int j = Controller.xtile-1; j < Controller.xtile + 2; j++) {
-                if(i >= 0 && i < board.length && j >= 0 && j < board[0].length) {
+        for (int i = Controller.ytile-1; i < Controller.ytile + 2; i++) {
+            for (int j = Controller.xtile-1; j < Controller.xtile + 2; j++) {
+                if (i >= 0 && i < board.length && j >= 0 && j < board[0].length) {
                     temp.add(board[i][j]);
                 }
             }
