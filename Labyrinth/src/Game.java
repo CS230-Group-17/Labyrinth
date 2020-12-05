@@ -3,8 +3,11 @@ package sample;
 import java.util.ArrayList;
 
 /**
- * controls the main processes of the game(moves the player, slides the tile and so on)
+ * This class controls the main processes of the game(moves the player, slides the tile and so on)
+ * 
  * @author Marijus Gudiskis 1901701
+ * 
+ * @version 1.0
  */
 public class Game {
     public static int numOfPlayers;
@@ -14,6 +17,15 @@ public class Game {
     private FloorTile goalTile;
     public static ArrayList<Tile> silkBag = new ArrayList<Tile>();
 
+    /**
+     * Creates an instance of the Game class.
+     * @param players An aray of players which are a part of the game.
+     * @param board A 2d array of floor tiles which represents the board layout.
+     * @param goalTile The floor tile which when stepped on by the player will cause a win condition and result in the player who stepped on the tile winning.
+     * @param silkBag The silk bag which contains the floor tiles that the players will recieve their tiles from when drawing at the start of a round.
+     * @param currentTurn The current turn number of the game.
+     * @param numOfPlayers The amount of players which are partaking in the game.
+     */
     public Game(Player[] players, FloorTile[][] board, FloorTile goalTile,
                 ArrayList<Tile> silkBag, int currentTurn, int numOfPlayers) {
         this.numOfPlayers = numOfPlayers;
@@ -24,15 +36,28 @@ public class Game {
         this.goalTile = goalTile;
     }
 
+    /**
+     * Progresses the turn number and removes fire/ice if there is fire and ice. 
+     */
     public void nextTurn(){
         removeIceAndFire();
         currentTurn++;
     }
     
+    /**
+     * Retrieves the tile at the specified position at the specified location.
+     * @param row The y position of the tile.
+     * @param col The x position of the tile.
+     * @return The tile on board at position [row][column] in the 2d board array.
+     */
     public FloorTile getTileFromTheBoard(int row, int col) {
         return board[row][col];
     }
 
+    /**
+     * Creates an array list of all the fixed tiles on the board.
+     * @return An array list of fixed tiles that exist on the board.
+     */
     public ArrayList<FixedTile> getFixedTilesFromBoard() {
     	ArrayList<FixedTile> fixedTiles = new ArrayList<FixedTile>();
         for(int i = 0; i < board.length; i++) {
@@ -46,10 +71,18 @@ public class Game {
         return fixedTiles;
     }
     
+    /**
+     * Retrieves the width of the board.
+     * @return The width of the board.
+     */
     public int getWidthOfBoard() {
         return board[0].length;
     }
     
+    /**
+     * Retrieves the height of the board.
+     * @return The height of the board.
+     */
     public int getHeightOfBoard() {
         return board.length;
     }
@@ -57,11 +90,11 @@ public class Game {
      * slides the tile if the row or column is not fixed or frozen. Row represents in which row you want to insert and
      * col tell in which column to insert, so a row:0 and col:2 will insert from the top at column 2 and row:2 and
      * col:3(max_num_of_col_ will insert from right in the row 2 or row:3(max_num_of_row) col:3 will insert at col
-     * 3 from the bottom. The numbers in example ar arbitrary
-     * @param row the row where it is wanted to insert
-     * @param col the col where it is wanted to insert
-     * @param newTile the new tile
-     * @return returns true if successful, false otherwise
+     * 3 from the bottom. The numbers in example ar arbitrary.
+     * @param row the row where it is wanted to insert.
+     * @param col the col where it is wanted to insert.
+     * @param newTile the new tile.
+     * @return returns true if successful, false otherwise.
      */
     static public Boolean slideTile(int row, int col, FloorTile newTile) {
         FloorTile oldTile1 = newTile;
@@ -134,13 +167,13 @@ public class Game {
 
     /**
      * before moving a player it checks if it can move on that tile and makes sure that the player
-     * doesn't leave the board
-     * @param player the player that is moving
-     * @param right is it going right
-     * @param left is it going left
-     * @param down is it going down
-     * @param up is it going up
-     * @return returns true if successful, false otherwise
+     * doesn't leave the board.
+     * @param player the player that is moving.
+     * @param right is it going right.
+     * @param left is it going left.
+     * @param down is it going down.
+     * @param up is it going up.
+     * @return returns true if successful, false otherwise.
      */
     static public boolean movePlayer(Player player, boolean right, boolean left, boolean down, boolean up) {
 
@@ -203,7 +236,7 @@ public class Game {
     }
 
     /**
-     *removes the fire and Ice from the board after certain turns
+     *removes the fire and Ice from the board after a certain number of turns
      */
     public static void removeIceAndFire(){
         for(int i = 0; i < board.length; i++) {
@@ -219,8 +252,8 @@ public class Game {
     }
 
     /**
-     * checks who has won te game
-     * @return the player who has won the game
+     * checks if someone has won the game and who has won the game.
+     * @return the player who has won the game or null.
      */
     public Player hasWonTheGame() {
         for(int i = 0; i < board.length; i++) {
@@ -235,18 +268,34 @@ public class Game {
         return null;
     }
 
+    /**
+     * Gets the players of the game in an array.
+     * @return An array of the players that are in the game.
+     */
     public Player[] getPlayers() {
         return players;
     }
 
+    /**
+     * Gets the goal tile from the game.
+     * @return The goal tile on board.
+     */
     public FloorTile getGoalTile() {
         return goalTile;
     }
 
+    /**
+     * Removes the top most tile in the silk bag.
+     */
     public void removeFromSilkBag() {
         silkBag.remove(0);
     }
 
+    /**
+     * Checks to see if the player can move to an adjacent tile.
+     * @param player The player in question.
+     * @return True or false depending on if the player in question can move.
+     */
     public static boolean canPlayerMove(Player player){
         int playerX = 0;
         int playerY = 0;
@@ -298,13 +347,17 @@ public class Game {
         return false;
     }
 
+    /**
+     * Gets the silk bag from the game.
+     * @return the silk bag.
+     */
     public ArrayList<Tile> getSilkBag() {
         return silkBag;
     }
 
     /**
-     * returns an ordered larboard
-     * @return array of player profiles
+     * returns an ordered leaderboard.
+     * @return array of player profiles.
      */
     public PlayerProfile[] getLeaderboardOrdered() {
         PlayerProfile[] temp = new PlayerProfile[players.length];
@@ -325,19 +378,34 @@ public class Game {
         return temp;
     }
 
+    /**
+     * Gets the board from the game.
+     * @return The board.
+     */
     public FloorTile[][] getBoard(){
         return board;
     }
 
+    /**
+     * Gets the specific player from the index of the array of players.
+     * @param index The index of the player you want to find.
+     * @return the player at the index from the player array.
+     */
     public Player getPlayer(int index) {
         return players[index];
     }
 
+    //Needs to be fixed.
     public static Player getEffectedPlayers(Player efPlayer) {
         //the chosen player will be returned
         return efPlayer;
     }
 
+    /**
+     * Gets the tiles surrounding a tile specified.
+     * @param efPlayer The tile that was clicked on.
+     * @return The tiles surrounding the tile in the parameters.
+     */
     public static ArrayList<FloorTile> getEffectedTiles() {
 
         ArrayList<FloorTile> temp = new ArrayList<>();
