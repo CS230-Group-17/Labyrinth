@@ -34,6 +34,7 @@ public class Menu {
 
     @FXML
     public void showLevelSelect() {
+        FileSystem.getAllPlayerProfiles();
         levelSelectCb.getItems().clear();
         if (levelSelectCb.isVisible() == false)
         {

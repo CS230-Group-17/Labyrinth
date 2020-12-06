@@ -21,12 +21,12 @@ public class FileSystem {
 	 * @return an instance of the Game class instatiated from the selectedMap argument
 	 */
 
-	public final static String MAPS = "src/Maps/";
-	public final static String LEADERBOARDS = MAPS+"MapsForPlayers/";
-	public final static String localisedDirStruct_PlayerProfile = "src/PlayerProfiles/";
-	public final static String localisedDirStruct_SavedGames = MAPS+"SavedMaps/";
-	public final static String localisedDirStruct_MAPS = MAPS+"NewMaps/";
-	public final static String Images = "src/IMG/";
+	public final static String MAPS = "src\\sample\\Maps\\";
+	public final static String LEADERBOARDS = MAPS+"MapsForPlayers\\";
+	public final static String localisedDirStruct_PlayerProfile = "src\\sample\\PlayerProfiles\\";
+	public final static String localisedDirStruct_SavedGames = MAPS+"SavedMaps\\";
+	public final static String localisedDirStruct_MAPS = MAPS+"NewMaps\\";
+	public final static String Images = "src\\sample\\IMG\\";
 
 	public static ArrayList<PlayerProfile> AllPlayerProfiles = new ArrayList<PlayerProfile>();
 
@@ -649,7 +649,7 @@ public class FileSystem {
 	 */
 	static public PlayerProfile readPlayerProfile(String ProfileName) {
 		try {
-			File playerProfileFile = new File(localisedDirStruct_PlayerProfile+ProfileName+".txt");
+			File playerProfileFile = new File(localisedDirStruct_PlayerProfile+ProfileName);//+".txt"
 			Scanner scanner = new Scanner(playerProfileFile);
 			String name = scanner.nextLine();
 			int wins = Integer.parseInt(scanner.nextLine());

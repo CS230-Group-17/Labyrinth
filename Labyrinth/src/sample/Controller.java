@@ -44,16 +44,14 @@ public class Controller {
     public static int ytile = -1;
     private int selectedActionTile = -1;
     private int chosenPlayer = -1;
-    private String fire = "C:\\Users\\marij\\Downloads\\fire.png";
-    private String ice = "C:\\Users\\marij\\Downloads\\ice.png";
-    private String fixedTilePath = "C:\\Users\\marij\\Downloads\\blue.jpg";
-    private String weedPath = "C:\\Users\\marij\\Downloads\\weed.png";
-    private String arrowPath = "C:\\Users\\marij\\Downloads\\arrow.png";
+    private String fire = "src\\sample\\IMG\\fire.png";
+    private String ice = "src\\sample\\IMG\\ice.png";
+    private String weedPath = "src\\sample\\IMG\\weed.png";
+    private String arrowPath = "src\\sample\\IMG\\arrow.png";
     private Image iceIm;
     private Image fireIm;
     private Image weedImg;
     private Tile curentTile;
-    private Image fixedTile;
     private Image arrow;
     private boolean insertOnce;
     private boolean usedAction;
@@ -74,7 +72,6 @@ public class Controller {
 
         iceIm = new Image(new FileInputStream(ice));
         fireIm = new Image(new FileInputStream(fire));
-        fixedTile = new Image(new FileInputStream(fixedTilePath));
         weedImg = new Image(new FileInputStream(weedPath));
         arrow = new Image(new FileInputStream(arrowPath));
 
