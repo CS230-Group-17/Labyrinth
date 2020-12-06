@@ -36,6 +36,16 @@ public class FileSystem {
 	public static String backtrackImgPath = Images + "backtrack_tile.png";
 	public static String doubleMoveImgPath = Images + "double_move_tile.png";
 
+	public FloorTile goalTile;
+
+	{
+		try {
+			goalTile = new FloorTile(tshapeImgPath, new Image(new FileInputStream(tshapeImgPath)),true,true, true, true, true,"goal");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+
 
 	public static ArrayList<PlayerProfile> AllPlayerProfiles = new ArrayList<PlayerProfile>();
 
@@ -46,6 +56,7 @@ public class FileSystem {
 		for (File file : listOfFiles) {
 			if (file.isFile()) {
 				AllPlayerProfiles.add(readPlayerProfile(file.getName().substring(0, file.getName().length()-4)));
+				System.out.println("");
 			}
 		}
 
@@ -97,7 +108,7 @@ public class FileSystem {
 
 		return leaderboard;
 	}
-	
+
 	public static Game readNewGame(String selectedMap, Player[] players) throws FileNotFoundException {
 		//game arguments / game data
 		List<Player> Players  = new ArrayList<Player>();
@@ -116,7 +127,7 @@ public class FileSystem {
 		int numberOfBacktrackTiles = 0;
 		int numberOfDoubleMoveTiles = 0;
 
-		
+
 		//scanner file start
 		File mapData = new File(localisedDirStruct_MAPS + selectedMap );
 		Scanner mapScanner = null;
@@ -137,7 +148,7 @@ public class FileSystem {
 		System.out.println(ySize);
 
 		FloorTile[][] board = new FloorTile[xSize][ySize];
-		
+
 		//read silk bag contents
 		String silkBagData = mapScanner.nextLine();
 		String[] silkBagContents = silkBagData.split(",");
@@ -153,11 +164,8 @@ public class FileSystem {
 		numberOfBacktrackTiles = Integer.parseInt(silkBagContents[5]);
 		numberOfDoubleMoveTiles = Integer.parseInt(silkBagContents[6]);
 
-		//closeMapScanner
-		mapScanner.close();
 
 
-		
 		//read and create silk bag
 		//straight
 
@@ -173,13 +181,13 @@ public class FileSystem {
 
 		}
 
-		
+
 		//corner
 		for (int i = 0; i < numberOfCorners; i++) {
 			int chanceOfOrientation = ran.nextInt((3 - 0) + 1) + 0;
 			if (chanceOfOrientation == 0) {
 				silkBag.add(new FloorTile(cornerImgPath, new Image(new FileInputStream(cornerImgPath)),false, false, false, true, true, "Corner"));
-			} 
+			}
 			else if (chanceOfOrientation == 1) {
 				silkBag.add(new FloorTile(cornerImgPath, new Image(new FileInputStream(cornerImgPath)),false,false, true, true, false,"Corner"));
 			}
@@ -197,7 +205,7 @@ public class FileSystem {
 			int chanceOfOrientation = ran.nextInt((3 - 0) + 1) + 0;
 			if (chanceOfOrientation == 0) {
 				silkBag.add(new FloorTile(tshapeImgPath, new Image(new FileInputStream(tshapeImgPath)),false,false, true, true, true,"TShape"));
-			} 
+			}
 			else if (chanceOfOrientation == 1) {
 				silkBag.add(new FloorTile(tshapeImgPath, new Image(new FileInputStream(tshapeImgPath)),false,false, true, true, false,"TShape"));
 			}
@@ -218,7 +226,7 @@ public class FileSystem {
 				}
 			});
 		}
-		
+
 		//Ice
 		for (int i = 0; i < numberOfIceTiles; i++) {
 			silkBag.add(new ActionTile(iceImgPath, new Image(new FileInputStream(iceImgPath)), "Ice") {
@@ -228,7 +236,7 @@ public class FileSystem {
 				}
 			});
 		}
-		
+
 		//Backtrack
 		for (int i = 0; i < numberOfBacktrackTiles; i++) {
 			silkBag.add(new ActionTile(backtrackImgPath, new Image(new FileInputStream(backtrackImgPath)), "Backtrack") {
@@ -238,7 +246,7 @@ public class FileSystem {
 				}
 			});
 		}
-		
+
 		//doubleMove
 		for (int i = 0; i < numberOfDoubleMoveTiles; i++) {
 			silkBag.add(new ActionTile(doubleMoveImgPath, new Image(new FileInputStream(doubleMoveImgPath)), "doublemove") {
@@ -280,17 +288,47 @@ public class FileSystem {
 			board[i] = currentRowToBoardArray;
 		}
 
+		String fixedTilesData = mapScanner.nextLine();
+		String[] fixedTilesContents = fixedTilesData.split("!");
+		FloorTile goalTile = new FloorTile("C:\\Users\\warre\\Downloads\\stick.png", new Image(new FileInputStream("C:\\Users\\warre\\Downloads\\stick.png")),true,true, true, true, true,"goal");
+
+		for (String fixedTileString : fixedTilesContents){
+
+			String[] fixedTileData = fixedTileString.split(",");
+
+			String imgPath = fixedTileData[0];
+			String name = fixedTileData[1];
+			Boolean north = Boolean.parseBoolean(fixedTileData[2]);
+			Boolean east = Boolean.parseBoolean(fixedTileData[2]);
+			Boolean south = Boolean.parseBoolean(fixedTileData[2]);
+			Boolean west = Boolean.parseBoolean(fixedTileData[2]);
+			Boolean fixed = Boolean.parseBoolean(fixedTileData[2]);
+			int posX = Integer.parseInt(fixedTileData[7]);
+			int posY = Integer.parseInt(fixedTileData[8]);
+
+
+			if (name == "Goal" || name == "goal") {
+				goalTile = new FloorTile(imgPath, new Image(new FileInputStream(imgPath)),fixed,north, east, south, west,name);
+			}
+
+			board[posX][posY] = new FloorTile(imgPath, new Image(new FileInputStream(imgPath)),fixed,north, east, south, west,name);
+		}
+
+		//closeMapScanner
+		mapScanner.close();
+
+
 		return new Game(players, board,
-				new FloorTile(tshapeImgPath, new Image(new FileInputStream(tshapeImgPath)),true,true, true, true, true,"Goal"),
+				goalTile,
 				silkBag, 0, players.length);
 	}
-	
+
 	/**
 	 * Method to save the game
 	 * @param currentGame - The current game which will be saved
 	 * @param saveName - The save name of the file
 	 */
-    static public void saveGame(Game currentGame, String saveName) {
+	static public void saveGame(Game currentGame, String saveName) {
 		PrintWriter gameWriter = null;
 		try {
 			gameWriter = new PrintWriter(new File(localisedDirStruct_SavedGames+saveName));
@@ -299,8 +337,8 @@ public class FileSystem {
 		}
 
 		//width and height of the board
-        gameWriter.println(String.valueOf(currentGame.getWidthOfBoard()) + "," + String.valueOf(currentGame.getHeightOfBoard()) );
-		
+		gameWriter.println(String.valueOf(currentGame.getWidthOfBoard()) + "," + String.valueOf(currentGame.getHeightOfBoard()) );
+
 		//board
 		FloorTile[][] gameBoard = currentGame.getBoard();
 		for (FloorTile[] currentRow : gameBoard) {
@@ -314,14 +352,14 @@ public class FileSystem {
 				boolean direction_west = currentFloorTile.isWest();
 				boolean isFixed = currentFloorTile.isFixedTile();
 				boardString +=	(imagePath + "," +
-								name + "," +
-								String.valueOf(isFixed) + "," +
-								String.valueOf(direction_north) + "," +
-								String.valueOf(direction_east) + "," +
-								String.valueOf(direction_south) + "," +
-								String.valueOf(direction_west) +
-								"#"
-								);
+						name + "," +
+						String.valueOf(isFixed) + "," +
+						String.valueOf(direction_north) + "," +
+						String.valueOf(direction_east) + "," +
+						String.valueOf(direction_south) + "," +
+						String.valueOf(direction_west) +
+						"#"
+				);
 
 			}
 			gameWriter.print(boardString);
@@ -332,7 +370,7 @@ public class FileSystem {
 
 		//silkbag
 		ArrayList<Tile> silkBag = currentGame.getSilkBag();
-		
+
 		int numOfStraight = 0;
 		int numOfCorners = 0;
 		int numOfTShape = 0;
@@ -340,31 +378,31 @@ public class FileSystem {
 		int numOfIceTile = 0;
 		int numOfBacktrackTile = 0;
 		int numOfDoubleMoveTiles = 0;
-		
+
 		for (Tile currentTile : silkBag) {
 			if (currentTile.getName() == "Straight") {
-					numOfStraight++;
-			} 
+				numOfStraight++;
+			}
 			else if (currentTile.getName() == "Corner") {
-					numOfCorners++;
-			} 
+				numOfCorners++;
+			}
 			else if (currentTile.getName() == "TShape") {
-					numOfTShape++;
-			} 
+				numOfTShape++;
+			}
 			else if (currentTile.getName() == "Fire") {
-					numOfFireTile++;
-			} 
+				numOfFireTile++;
+			}
 			else if (currentTile.getName() == "Ice") {
-					numOfIceTile++;
-			} 
+				numOfIceTile++;
+			}
 			else if (currentTile.getName() == "Backtrack") {
-					numOfBacktrackTile++;
-			} 
+				numOfBacktrackTile++;
+			}
 			else if (currentTile.getName() == "DoubleMove") {
-					numOfDoubleMoveTiles++;
+				numOfDoubleMoveTiles++;
 			}
 		}
-		
+
 		gameWriter.println(String.valueOf(numOfStraight)+","+String.valueOf(numOfCorners)+","+String.valueOf(numOfTShape)+","+
 				String.valueOf(numOfFireTile)+","+String.valueOf(numOfFireTile)+","+String.valueOf(numOfBacktrackTile)+","+String.valueOf(numOfDoubleMoveTiles));
 
@@ -387,10 +425,28 @@ public class FileSystem {
 		gameWriter.println(playersString);
 		gameWriter.println(currentGame.getCurrentTurn());
 
-		gameWriter.flush();  
-		gameWriter.close();  
+		ArrayList<FloorTile> fixedTilesFromBoard = currentGame.getFixedTilesFromBoard();
+
+		String fixedTilesString = "";
+		for (FloorTile currentFixedTile : fixedTilesFromBoard){
+			String imgPath = currentFixedTile.getImgPath();
+			String name = currentFixedTile.getName();
+			boolean north = currentFixedTile.isNorth();
+			boolean east = currentFixedTile.isEast();
+			boolean south = currentFixedTile.isSouth();
+			boolean west = currentFixedTile.isWest();
+			boolean fixedTile = currentFixedTile.isFixedTile();
+			int[] tilePos = currentGame.findTileLocation(currentFixedTile);
+
+
+			fixedTilesString += imgPath+","+name+","+String.valueOf(north)+","+String.valueOf(east)+","+String.valueOf(south)+","+String.valueOf(west)+","+String.valueOf(fixedTile)+","+String.valueOf(tilePos[0])+","+String.valueOf(tilePos[1])+"!";
+		}
+
+		gameWriter.print(fixedTilesString);
+		gameWriter.flush();
+		gameWriter.close();
 	}
-	
+
 	/**
 	 * Method to load the game
 	 * @param gameName - The name of the game to be loaded
@@ -472,7 +528,6 @@ public class FileSystem {
 		int numberOfBacktrackTiles = Integer.parseInt(silkBagContents[5]);
 		int numberOfDoubleMoveTiles = Integer.parseInt(silkBagContents[6]);
 
-
 		//read and create silk bag
 		ArrayList<Tile> silkBag = new ArrayList<Tile>();
 		//straight
@@ -483,9 +538,7 @@ public class FileSystem {
 			} else {
 				silkBag.add(new FloorTile(straightImgPath, new Image(new FileInputStream(straightImgPath)),false, false, true , false , true, "Straight"));
 			}
-
 		}
-
 
 		//corner
 		for (int i = 0; i < numberOfCorners; i++) {
@@ -631,14 +684,40 @@ public class FileSystem {
 		String turn = mapScanner.nextLine();
 		System.out.println(turn);
 
+
+
+		FloorTile goalTile = new FloorTile("C:\\Users\\warre\\Downloads\\stick.png", new Image(new FileInputStream("C:\\Users\\warre\\Downloads\\stick.png")),true,true, true, true, true,"goal");
+
+		String fixedTilesData = mapScanner.nextLine();
+		String[] fixedTilesContents = fixedTilesData.split("!");
+		for (String fixedTileString : fixedTilesContents){
+
+			String[] fixedTileData = fixedTileString.split(",");
+
+			String imgPath = fixedTileData[0];
+			String name = fixedTileData[1];
+			Boolean north = Boolean.parseBoolean(fixedTileData[2]);
+			Boolean east = Boolean.parseBoolean(fixedTileData[2]);
+			Boolean south = Boolean.parseBoolean(fixedTileData[2]);
+			Boolean west = Boolean.parseBoolean(fixedTileData[2]);
+			Boolean fixed = Boolean.parseBoolean(fixedTileData[2]);
+			int posX = Integer.parseInt(fixedTileData[7]);
+			int posY = Integer.parseInt(fixedTileData[8]);
+
+			if (name == "Goal" || name == "goal") {
+				goalTile = new FloorTile(imgPath, new Image(new FileInputStream(imgPath)),fixed,north, east, south, west,name);
+			}
+
+			board[posX][posY] = new FloorTile(imgPath, new Image(new FileInputStream(imgPath)),fixed,north, east, south, west,name);
+		}
+
 		mapScanner.close();
 
-
 		return new Game(playerObjs, board,
-				new FloorTile(tshapeImgPath, new Image(new FileInputStream(tshapeImgPath)),true,true, true, true, true,"Goal"),
+				goalTile,
 				silkBag, Integer.parseInt(turn), playerObjs.length);
 	}
-	
+
 	/**
 	 * Method to read a player profrile
 	 * @param ProfileName - the player profile to read
@@ -653,14 +732,14 @@ public class FileSystem {
 			int gamesPlayed = Integer.parseInt(scanner.nextLine());
 			scanner.close();
 			return new PlayerProfile(losses, wins, name, gamesPlayed);
-			
+
 		} catch (FileNotFoundException e) {
 			System.out.println("Player profile specified does not exist.");
 			e.printStackTrace();
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Method to delete a player profile
 	 * @param profileName - the player profile to be deleted
@@ -670,7 +749,7 @@ public class FileSystem {
 		File playerProfileFile = new File(localisedDirStruct_PlayerProfile + profileName +".txt");
 		playerProfileFile.delete();
 	}
-	
+
 	/**
 	 * Method to create a player profile
 	 * @param name - the desired name of the plyaer profile
@@ -678,48 +757,48 @@ public class FileSystem {
 	 */
 	public static void createPlayerProfile(String name) {
 		File playerProfileFile = new File(localisedDirStruct_PlayerProfile + name + ".txt");
-		
-        PrintWriter playerProfileWriter;
+
+		PrintWriter playerProfileWriter;
 		try {
 			playerProfileWriter = new PrintWriter(playerProfileFile);
 			playerProfileWriter.println(name);
-			playerProfileWriter.println(0);   
-			playerProfileWriter.println(0);   
-			playerProfileWriter.println(0);   
-			playerProfileWriter.flush();  
-			playerProfileWriter.close(); 
-			
+			playerProfileWriter.println(0);
+			playerProfileWriter.println(0);
+			playerProfileWriter.println(0);
+			playerProfileWriter.flush();
+			playerProfileWriter.close();
+
 			AllPlayerProfiles.add(new PlayerProfile(0, 0, name, 0));
-			
+
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-		}  
+		}
 	}
 
 	/*
-	 * 
+	 *
 	 * Method to update all playerProfiles
 	 * @param players - An array of Players
 	 * @return a boolean value to show if the operation has been successful
 	 */
 	public Boolean updateAllPlayerProfiles(Game currentGame) {
 		Player[] players = currentGame.getPlayers();
-		
+
 		for (Player currentPlayer : players) {
-			
+
 			overwritePlayerProfile(currentPlayer);
-			
+
 		}
 		return true;
 	}
-	
+
 	/*
 	 * Method to overwrite player
 	 * @param currentPlayer
 	 */
 	private static void overwritePlayerProfile(Player currentPlayer) {
 		PlayerProfile currentPlayerProfile = currentPlayer.getPlayerProfile();
-		
+
 		String name = currentPlayerProfile.getName();
 		int wins = currentPlayerProfile.getWins();
 		int losses = currentPlayerProfile.getLosses();
@@ -745,8 +824,36 @@ public class FileSystem {
 
 	//test
 	public static void main(String[] args) throws FileNotFoundException {
+		getAllPlayerProfiles();
+
+
 		/*
+		Player[] Players = new Player[]{new Player("test.png",  readPlayerProfile("LukeSkywalker"),
+				new FloorTile("C:\\Users\\warre\\Downloads\\stick.png",
+						new Image(new FileInputStream("C:\\Users\\warre\\Downloads\\stick.png")),
+						true, true, true, true, true, "FloorTile"),
+				new Image(new FileInputStream("C:\\Users\\warre\\Downloads\\stick.png")))};
+		Game currentTest = readNewGame("coolWorld.txt", Players);
+
+		System.out.println(currentTest.getPlayers());
+		System.out.println(currentTest.getHeightOfBoard());
+		System.out.println(currentTest.getCurrentTurn());
+		System.out.println(currentTest.getHeightOfBoard());
+		System.out.println(currentTest.getPlayers()[0].getPlayerProfile().getName());
+
+		FloorTile[][] board = currentTest.getBoard();
+
+		System.out.println(board[0][0]);
+
+		for (FloorTile[] row: board){
+			for (FloorTile curTile: row){
+				System.out.println(curTile.getName());
+			}
+		}
+ */
+
 		//TEST FOR saveGame -----> loadGame -----> getPlayerProfilesFromLeaderboard ACTION : WORKING
+
 		Player[] Players = new Player[]{new Player("C:\\Users\\warre\\Downloads\\qq.png",  readPlayerProfile("LukeSkywalker"),
 				new FloorTile("C:\\Users\\warre\\Downloads\\stick.png",
 						new Image(new FileInputStream("C:\\Users\\warre\\Downloads\\stick.png")),
@@ -759,6 +866,8 @@ public class FileSystem {
 				return false;
 			}
 		});
+
+
 
 		saveGame(new Game(Players, new FloorTile[][]{
 				{new FloorTile("C:\\Users\\warre\\Downloads\\stick.png",
@@ -805,7 +914,7 @@ public class FileSystem {
 		System.out.println(playerProfiles.size());
 
 
-		 */
+
 
 		/*
 		TEST FOR saveGame : WORKING

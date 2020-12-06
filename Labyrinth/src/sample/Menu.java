@@ -51,6 +51,9 @@ public class Menu {
     private void showProfiles(){
         File file = new File("src\\sample\\PlayerProfiles");
         ObservableList<String> files = FXCollections.observableArrayList(file.list());
+        for(int i = 0; i < files.size(); i++) {
+            files.set(i,files.get(i).substring(0, files.get(i).length()-4));
+        }
         playerdd1.setItems(files);
         playerdd2.setItems(files);
         playerdd3.setItems(files);
@@ -129,18 +132,44 @@ public class Menu {
     @FXML
     private void deletePlayerProfile()
     {
-        File file = new File("src\\sample\\PlayerProfiles\\" +deleteProfiledd.getValue());
+        File file = new File("src\\sample\\PlayerProfiles\\" +deleteProfiledd.getValue() + ".txt");
         file.delete();
         deleteProfiledd.setValue(null);
     }
 
     @FXML
     private void chosenLevel() throws IOException {
-        String file = levelSelectCb.getValue() + ".txt";
+        String file = (String) levelSelectCb.getValue();
         levelSelectCb.setVisible(false);
-        //Game theGame = null;//FileSystem.readNewGame(file, playerProfiles);
-        AnchorPane temp = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        anchPane.getChildren().setAll(temp);
+
+        ArrayList<String> playerProfiles= new ArrayList<String >();
+
+        if(playerdd1.getValue() != null) {
+            playerProfiles.add((String) playerdd1.getValue());
+        }
+        if(playerdd2.getValue() != null) {
+            playerProfiles.add((String) playerdd2.getValue());
+        }
+        if(playerdd3.getValue() != null) {
+            playerProfiles.add((String) playerdd3.getValue());
+        }
+        if(playerdd4.getValue() != null) {
+            playerProfiles.add((String) playerdd4.getValue());
+        }
+
+        if(playerProfiles.size() >= 2) {
+
+            String[] playerProfilesArr = new String[playerProfiles.size()];
+            for (int i = 0; i < playerProfilesArr.length; i++) {
+                playerProfilesArr[i] = playerProfiles.get(i);
+            }
+
+            //Game theGame = FileSystem.readNewGame(file, playerProfiles);
+            AnchorPane temp = FXMLLoader.load(getClass().getResource("sample.fxml"));
+            anchPane.getChildren().setAll(temp);
+        } else {
+            System.out.println("at least 2 players");
+        }
     }
 
     @FXML

@@ -4,12 +4,8 @@ import javafx.scene.image.Image;
 
 import java.util.ArrayList;
 
-/**
-* This Class represents the Player.
-* @author Cory Lagdon and Steffan Long
-* @version 1.0
-*/
-public class Player {
+public class Player
+{
 	// private FloorTile location; "Remove once floor tile class is done."
 	private String imgPath;
 	private Image playerImage;
@@ -20,13 +16,7 @@ public class Player {
 	private int movesPerTurn = 1;
 	private FloorTile playerLocation;
 
-	/**
-	 * Creates a Player for the board.
-	 * @param imgPath The path of image of the player.
-	 * @param playerProfile The object playerProfile.
-	 * @param location The location of the player on the board.
-	 * @param playerImage The image of the player.
-	 */
+
 	public Player(String imgPath, PlayerProfile playerProfile, FloorTile location, Image playerImage) {
 		this.imgPath = imgPath;
 		this.playerProfile = playerProfile;
@@ -36,108 +26,70 @@ public class Player {
 		updateGetBackTiles(location);
 	}
 
-	/**
-	 * Get the playerImage.
-	 * @return The player image.
-	 */
-	public Image getPlayerImage() {
+	public Image getPlayerImage(){
 		return playerImage;
 	}
 
-	/**
-	 * Get the playerProfile.
-	 * @return The player profile.
-	 */
 	public PlayerProfile getPlayerProfile() {
 		return playerProfile;
 	}
 
-	/**
-	 * Get the list of previous players.
-	 * @return The prevBtPlayers.
-	 */
-	public Player[] getPrevBtPlayers() {
+	public Player[] getPrevBtPlayers()
+	{
 		return prevBtPlayers;
 	}
 
-	/**
-	 * Adds a player to the list of backtracked players.
-	 * @param btdPlayer The player who has been backtracked.
-	 */
-	public void addPrevBtPlayers(Player btdPlayer) {
-		for (int i = 0; i < prevBtPlayers.length-1; i++) {
-			if (prevBtPlayers[i] == null) {
+	public void addPrevBtPlayers(Player btdPlayer)
+	{
+		for (int i = 0; i < prevBtPlayers.length-1; i++)
+		{
+			if (prevBtPlayers[i] == null)
+			{
 				prevBtPlayers[i] = btdPlayer;
 				break;
 			}
 		}
 	}
 
-	/**
-	 * Gets the hand of the player.
-	 * @param index The position of the tile in the array.
-	 * @return ActionTile An action tile from the array.
-	 */
-	public ActionTile getHand(int index) {
+	public ActionTile getHand(int index)
+	{
 		return hand.get(index);
 	}
 
-	/**
-	 * Gets the entire hand of the player.
-	 * @return hand The array list of the action tiles the player has in their hand.
-	 */
-	public ArrayList<ActionTile> getWholeHand() {
+	public ArrayList<ActionTile> getWholeHand()
+	{
 		return hand;
 	}
 
-	/**
-	 * Adds new action tile to the players hand.
-	 * @param newTile The tile to be added to the player's hand.
-	 */
 	public void addHand(ActionTile newTile) {
 		hand.add(newTile);
 	}
 
-	/**
-	 * Get the size of the players hand.
-	 * @return hand.size() The size of the player's hand.
-	 */
-	public int sizeOfHand() {
+	public int sizeOfHand(){
 		return hand.size();
 	}
-	
-	/**
-	 * Remove a tile from the players hand.
-	 * @param tile The tile that needs to get removed from the player's hand.
-	 */
 	public void removeHandTile(ActionTile tile) {
 		hand.remove(tile);
 	}
 
-	/**
-	 * Gets the image path of the player image.
-	 * @return imgPath The path of the player's image.
-	 */
-	public String getImage() {
+	public String getImage()
+	{
 		return imgPath;
 	}
 
-	/**
-	 * Gets the number of moves the players can do in a turn.
-	 * @return movesPerTurn The number of moves the player can do in a turn.
-	 */
-	public int getMovesPerTurn() {
+	public int getMovesPerTurn()
+	{
 		return movesPerTurn;
 	}
-	
-	/**
-	 * Sets the amount of moves the player can do this turn.
-	 * @param num The amount of moves the player can do in a turn. 
-	 */
-	public void setMovesPerTurn(int num) {
-		if (num > 2) {
+
+	public void setMovesPerTurn(int num)
+	{
+		if (num > 2)
+		{
 			num = 2;
-		} else if (num < 0) {
+		}
+		else if (num < 0)
+		{
 			num = 0;
 		}
 
@@ -161,9 +113,9 @@ public class Player {
 	 * @return the soonest tile
 	 */
 	public FloorTile getBackTiles() {
-		if (backTiles.size() == 0) {
+		if(backTiles.size() == 0){
 			return null;
-		} else {
+		}else {
 			FloorTile temp = backTiles.get(0);
 			backTiles.remove(0);
 			return temp;
@@ -178,10 +130,6 @@ public class Player {
 		this.playerLocation = newPos;
 	}
 
-	/**
-	  * Gets the location of the player.
-	  * @return playerLocation The location of the player.
-	  */
 	public FloorTile getPosition() {
 		return playerLocation;
 	}

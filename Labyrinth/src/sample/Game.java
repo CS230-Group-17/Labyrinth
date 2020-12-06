@@ -403,8 +403,8 @@ public class Game {
     public static ArrayList<FloorTile> getEffectedTiles() {
 
         ArrayList<FloorTile> temp = new ArrayList<>();
-        for(int i = Controller.ytile-1; i < Controller.ytile + 2; i++) {
-            for(int j = Controller.xtile-1; j < Controller.xtile + 2; j++) {
+        for(int i = GameControl.ytile-1; i < GameControl.ytile + 2; i++) {
+            for(int j = GameControl.xtile-1; j < GameControl.xtile + 2; j++) {
                 if(i >= 0 && i < board.length && j >= 0 && j < board[0].length) {
                     temp.add(board[i][j]);
                 }
@@ -444,4 +444,37 @@ public class Game {
     {
         return currentTurn;
     }
+
+    public static int[] findTileLocation(FloorTile curTile){
+        int tileX = 0;
+        int tileY = 0;
+        //finding the player on the board
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                if (curTile == board[i][j]) {
+                    tileX = i;
+                    tileY = j;
+                }
+            }
+        }
+        return new int[]{tileX, tileY};
+    }
+
+    /**
+     * Creates an array list of all the fixed tiles on the board.
+     * @return An array list of fixed tiles that exist on the board.
+     */
+    public ArrayList<FloorTile> getFixedTilesFromBoard() {
+        ArrayList<FloorTile> fixedTiles = new ArrayList<FloorTile>();
+        for(int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                if (board[i][j].isFixedTile()) {
+                    fixedTiles.add(board[i][j]);
+                }
+            }
+        }
+
+        return fixedTiles;
+    }
+
 }

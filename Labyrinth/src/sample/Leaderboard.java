@@ -25,9 +25,9 @@ public class Leaderboard {
      */
     @FXML
     public void initialize(){
-        mapsBox.getItems().add("map1");
-        mapsBox.getItems().add("map2");
-        mapsBox.getItems().add("map2");
+        mapsBox.getItems().add("catWordl1");
+        mapsBox.getItems().add("catWordl2");
+        mapsBox.getItems().add("catWordl3");
 
 
         TableColumn nameColumn = new TableColumn("Name");
@@ -57,8 +57,8 @@ public class Leaderboard {
      */
     @FXML
     private void loadMaps() {
-/*
-        ArrayList<PlayerProfile> playerProfiles = FileSystem.getPlayerProfilesFromLeaderboard(mapsBox.getValue() + ".txt");
+
+        ArrayList<PlayerProfile> playerProfiles = FileSystem.getPlayerProfilesFromLeaderboard((String) mapsBox.getValue());
         PlayerProfile[] playerArr = new PlayerProfile[playerProfiles.size()];
 
         for(int i = 0; i < playerProfiles.size(); i++) {
@@ -80,7 +80,7 @@ public class Leaderboard {
         for(int i = 0; i < playerArr.length; i++) {
             playerTable.getItems().add(playerArr[i]);
         }
-*/
+
 
     }
 
