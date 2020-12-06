@@ -34,7 +34,6 @@ public class Menu {
 
     @FXML
     public void showLevelSelect() {
-        FileSystem.getAllPlayerProfiles();
         levelSelectCb.getItems().clear();
         if (levelSelectCb.isVisible() == false)
         {
@@ -50,7 +49,7 @@ public class Menu {
 
     @FXML
     private void showProfiles(){
-        File file = new File("PlayerProfiles");
+        File file = new File("src\\sample\\PlayerProfiles");
         ObservableList<String> files = FXCollections.observableArrayList(file.list());
         playerdd1.setItems(files);
         playerdd2.setItems(files);
@@ -61,7 +60,7 @@ public class Menu {
 
     @FXML
     private void createProfile() {
-        //FileSystem.createPlayerProfile(newPlayerTxt.getText());
+        FileSystem.createPlayerProfile(newPlayerTxt.getText());
     }
 
     @FXML
@@ -130,7 +129,7 @@ public class Menu {
     @FXML
     private void deletePlayerProfile()
     {
-        File file = new File("PlayerProfiles\\" +deleteProfiledd.getValue());
+        File file = new File("src\\sample\\PlayerProfiles\\" +deleteProfiledd.getValue());
         file.delete();
         deleteProfiledd.setValue(null);
     }

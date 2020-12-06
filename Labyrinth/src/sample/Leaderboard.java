@@ -20,6 +20,9 @@ public class Leaderboard {
     @FXML private ComboBox mapsBox;
 
     //style="-fx-background-color: PINK;"
+    /**
+     * on start the the functions listed will be called.
+     */
     @FXML
     public void initialize(){
         mapsBox.getItems().add("map1");
@@ -39,13 +42,19 @@ public class Leaderboard {
         playerTable.getColumns().addAll(nameColumn, surnameColumn, lossColumn);
     }
 
-
+    /**
+     * takes the user back to the main menu for the game.
+     * @throws IOException
+     */
     @FXML
     private void backBtn() throws IOException {
         AnchorPane temp = FXMLLoader.load(getClass().getResource("Menu.fxml"));
         leaderPane.getChildren().setAll(temp);
     }
 
+    /**
+     * needs to be doc'd
+     */
     @FXML
     private void loadMaps() {
 /*

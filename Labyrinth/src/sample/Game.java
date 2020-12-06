@@ -413,6 +413,11 @@ public class Game {
         return temp;
     }
 
+    /**
+     * gets the players location in terms of x and y.
+     * @param player the player you want to find the location of.
+     * @return an array of 2 integers x and y respectively.
+     */
     public static int[] findPlayerLocation(Player player){
         int playerX = 0;
         int playerY = 0;
@@ -431,6 +436,10 @@ public class Game {
         return playerLocation;
     }
 
+    /**
+     * gets the current turn of the game.
+     * @return the integer value of the current turn.
+     */
     public int getCurrentTurn()
     {
         return currentTurn;
