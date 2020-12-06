@@ -28,6 +28,15 @@ public class FileSystem {
 	public final static String localisedDirStruct_MAPS = MAPS+"NewMaps\\";
 	public final static String Images = "src\\sample\\IMG\\";
 
+	public static String straightImgPath = Images + "straight-tile.jpg";
+	public static String cornerImgPath = Images + "Corner-tile.jpg";
+	public static String tshapeImgPath = Images + "T-tile.jpg";
+	public static String fireImgPath = Images + "fire_tile.png";
+	public static String iceImgPath = Images + "ice_tile.png";
+	public static String backtrackImgPath = Images + "backtrack_tile.png";
+	public static String doubleMoveImgPath = Images + "double_move_tile.png";
+
+
 	public static ArrayList<PlayerProfile> AllPlayerProfiles = new ArrayList<PlayerProfile>();
 
 	public static ArrayList<PlayerProfile> getAllPlayerProfiles() {
@@ -36,7 +45,7 @@ public class FileSystem {
 
 		for (File file : listOfFiles) {
 			if (file.isFile()) {
-				AllPlayerProfiles.add(readPlayerProfile(file.getName()));
+				AllPlayerProfiles.add(readPlayerProfile(file.getName().substring(0, file.getName().length()-4)));
 			}
 		}
 
@@ -147,13 +156,7 @@ public class FileSystem {
 		//closeMapScanner
 		mapScanner.close();
 
-		String straightImgPath = "C:\\Users\\warre\\Downloads\\stick.png";
-		String cornerImgPath = "C:\\Users\\warre\\Downloads\\stick.png";
-		String tshapeImgPath = "C:\\Users\\warre\\Downloads\\stick.png";
-		String fireImgPath = "C:\\Users\\warre\\Downloads\\stick.png";
-		String iceImgPath = "C:\\Users\\warre\\Downloads\\stick.png";
-		String backtrackImgPath = "C:\\Users\\warre\\Downloads\\stick.png";
-		String doubleMoveImgPath = "C:\\Users\\warre\\Downloads\\stick.png";
+
 		
 		//read and create silk bag
 		//straight
@@ -469,13 +472,6 @@ public class FileSystem {
 		int numberOfBacktrackTiles = Integer.parseInt(silkBagContents[5]);
 		int numberOfDoubleMoveTiles = Integer.parseInt(silkBagContents[6]);
 
-		String straightImgPath = "C:\\Users\\warre\\Downloads\\qq.png";
-		String cornerImgPath = "C:\\Users\\warre\\Downloads\\qq.png";
-		String tshapeImgPath = "C:\\Users\\warre\\Downloads\\qq.png";
-		String fireImgPath = "C:\\Users\\warre\\Downloads\\qq.png";
-		String iceImgPath = "C:\\Users\\warre\\Downloads\\qq.png";
-		String backtrackImgPath = "C:\\Users\\warre\\Downloads\\qq.png";
-		String doubleMoveImgPath = "C:\\Users\\warre\\Downloads\\qq.png";
 
 		//read and create silk bag
 		ArrayList<Tile> silkBag = new ArrayList<Tile>();
@@ -649,7 +645,7 @@ public class FileSystem {
 	 */
 	static public PlayerProfile readPlayerProfile(String ProfileName) {
 		try {
-			File playerProfileFile = new File(localisedDirStruct_PlayerProfile+ProfileName);//+".txt"
+			File playerProfileFile = new File(localisedDirStruct_PlayerProfile+ProfileName+".txt");
 			Scanner scanner = new Scanner(playerProfileFile);
 			String name = scanner.nextLine();
 			int wins = Integer.parseInt(scanner.nextLine());
