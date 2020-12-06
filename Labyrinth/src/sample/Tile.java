@@ -8,12 +8,7 @@ import javafx.scene.image.Image;
  */
 public abstract class Tile {
     private String imgPath;
-    public Image tileImage;
-
-    public String getName() {
-        return name;
-    }
-
+    private Image tileImage;
     private String name;
 
     public Tile(String imgPath, Image tileImage, String name) {
@@ -22,7 +17,11 @@ public abstract class Tile {
         this.name = name;
     }
 
-    public String getImg() {
+    public String getName() {
+        return name;
+    }
+
+    public String getImgPath() {
         return imgPath;
     }
 

@@ -2,6 +2,7 @@ package sample;
 
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
@@ -10,12 +11,15 @@ import javafx.scene.effect.BlendMode;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class Controller {
@@ -30,6 +34,7 @@ public class Controller {
     @FXML private Button cancelButton;
     @FXML private Button endTurn;
     @FXML private Label wonLable;
+    @FXML private AnchorPane gamePane;
     private Button[][] currentTiles = new Button[Game.board.length][Game.board[0].length];
     private Button[] actionButton = new Button[3];
     private Button[] playerButtons = new Button[Game.numOfPlayers];
@@ -39,23 +44,29 @@ public class Controller {
     public static int ytile = -1;
     private int selectedActionTile = -1;
     private int chosenPlayer = -1;
-    private String fire = "C:\\Users\\warre\\Downloads\\fire.png";
-    private String ice = "C:\\Users\\warre\\Downloads\\ice.png";
-    private String fireandice = "C:\\Users\\warre\\Downloads\\fireandice.jpg";
-    private String fixedTilePath = "C:\\Users\\warre\\Downloads\\blue.jpg";
-    private Image iceandFireIm;
+    private String fire = "C:\\Users\\marij\\Downloads\\fire.png";
+    private String ice = "C:\\Users\\marij\\Downloads\\ice.png";
+    private String fixedTilePath = "C:\\Users\\marij\\Downloads\\blue.jpg";
+    private String weedPath = "C:\\Users\\marij\\Downloads\\weed.png";
+    private String arrowPath = "C:\\Users\\marij\\Downloads\\arrow.png";
     private Image iceIm;
     private Image fireIm;
+    private Image weedImg;
     private Tile curentTile;
     private Image fixedTile;
+    private Image arrow;
     private boolean insertOnce;
     private boolean usedAction;
     private boolean madeAMove;
+    private Game theGame;
+    private int sizeOfTiles = 60;
+    private int sizeOfActionTiles = 50;
 
 
 
     @FXML
     public void initialize() throws FileNotFoundException {
+        theGame = Menu.theGame;
         wonLable.setText("");
 
         prepForUI();
@@ -64,6 +75,8 @@ public class Controller {
         iceIm = new Image(new FileInputStream(ice));
         fireIm = new Image(new FileInputStream(fire));
         fixedTile = new Image(new FileInputStream(fixedTilePath));
+        weedImg = new Image(new FileInputStream(weedPath));
+        arrow = new Image(new FileInputStream(arrowPath));
 
         displayPlayers();
 
@@ -72,7 +85,7 @@ public class Controller {
 
     @FXML
     public void refreshTheBoard() {
-        boardCol.setMinSize(50,50);
+        boardCol.setMinSize(sizeOfTiles,sizeOfTiles);
         boardCol.getChildren().clear();
         //boardCol.setGridLinesVisible(true);
 
@@ -83,7 +96,7 @@ public class Controller {
                 if(i >= 0 && j >= 0 && j < Game.board[0].length && i < Game.board.length) {
 
                     ImageView imageView = new ImageView(Game.board[i][j].getImage());
-                    imageView.setFitWidth(50);
+                    imageView.setFitWidth(sizeOfTiles);
                     imageView.setPreserveRatio(true);
                     imageView.setBlendMode(BlendMode.MULTIPLY);
 
@@ -96,12 +109,12 @@ public class Controller {
                     if(Game.board[i][j].isFrozen && Game.board[i][j].isOnFire){
 
                         ImageView imageViewIce = new ImageView(iceIm);
-                        imageViewIce.setFitWidth(50);
+                        imageViewIce.setFitWidth(sizeOfTiles-15);
                         imageViewIce.setPreserveRatio(true);
                         imageViewIce.setBlendMode(BlendMode.MULTIPLY);
 
                         ImageView imageViewFire = new ImageView(fireIm);
-                        imageViewFire.setFitWidth(50);
+                        imageViewFire.setFitWidth(sizeOfTiles-15);
                         imageViewFire.setPreserveRatio(true);
                         imageViewFire.setBlendMode(BlendMode.MULTIPLY);
 
@@ -114,7 +127,7 @@ public class Controller {
                     }else if(Game.board[i][j].isFrozen){
 
                         ImageView imageViewIce = new ImageView(iceIm);
-                        imageViewIce.setFitWidth(50);
+                        imageViewIce.setFitWidth(sizeOfTiles-15);
                         imageViewIce.setPreserveRatio(true);
 
                         blend = new Group(imageViewIce, imageView);
@@ -123,7 +136,7 @@ public class Controller {
                     }else if(Game.board[i][j].isOnFire) {
 
                         ImageView imageViewFire = new ImageView(fireIm);
-                        imageViewFire.setFitWidth(50);
+                        imageViewFire.setFitWidth(sizeOfTiles-15);
                         imageViewFire.setPreserveRatio(true);
                         blend = new Group(imageViewFire, imageView);
 
@@ -162,32 +175,47 @@ public class Controller {
                     currentTiles[i][j] = button;
                     boardCol.add(button, x, y, 1, 1);
 
-
+                    double sizeOfPlayers = sizeOfTiles-15;
                     for(int k = 0; k < Game.players.length; k++) {
                         if(Game.players[k].getPosition() == Game.board[i][j]) {
 
-
-
-                            ImageView imageViewPlays = new ImageView(Game.players[k].getPlayerImage());
-                            imageViewPlays.setFitWidth(25);
-                            imageViewPlays.setPreserveRatio(true);
-
-                            ImageView imageViewPla = new ImageView(Game.players[k].getPlayerImage());
-                            imageViewPla.setFitWidth(25);
-                            imageViewPla.setPreserveRatio(true);
-
-
-                            ImageView imageViewPlay = new ImageView(Game.players[k].getPlayerImage());
-                            imageViewPlay.setFitWidth(25);
-                            imageViewPlay.setPreserveRatio(true);
+                            ArrayList<Player> tempPlayersOnTile = new ArrayList<Player>();
                             GridPane temp = new GridPane();
-                            ColumnConstraints col1 = new ColumnConstraints(25);
-                            RowConstraints row1 = new RowConstraints(25);
-                            temp.getColumnConstraints().add(col1);
-                            temp.getRowConstraints().add(row1);
+
+                            for(int p = 0; p < Game.players.length; p++) {
+                                if(Game.players[k].getPosition() == Game.players[p].getPosition()) {
+                                    tempPlayersOnTile.add(Game.players[p]);
+                                }
+                            }
+
+                            if(tempPlayersOnTile.size() == 1) {
+                                sizeOfPlayers = sizeOfTiles-15;
+                            }else if(tempPlayersOnTile.size() == 2) {
+                                sizeOfPlayers = (sizeOfTiles-15)/1.5;
+                            }else if(tempPlayersOnTile.size() > 2) {
+                                sizeOfPlayers = (sizeOfTiles-15)/2.2;
+                            }
 
 
-                            temp.add(imageViewPlay, 0,0 , 1, 1);
+                            int col = 0;
+                            int row = 0;
+                            for(int p = 0; p < tempPlayersOnTile.size(); p++) {
+                                ImageView imageViewPlayer = new ImageView(tempPlayersOnTile.get(p).getPlayerImage());
+                                imageViewPlayer.setFitWidth(sizeOfPlayers);
+                                imageViewPlayer.setPreserveRatio(true);
+                                temp.add(imageViewPlayer, col,row , 1, 1);
+                                if(col > 0) {
+                                    col = 0;
+                                    row = 1;
+                                } else {
+                                    col = 1;
+                                }
+                            }
+
+
+
+
+
                             //temp.add(imageViewPlays, 1,0 , 1, 1);
                             //temp.add(imageViewPla, 0,1 , 1, 1);
                             temp.toFront();
@@ -222,7 +250,22 @@ public class Controller {
                             insertOnce = true;
                         }
 
-                        Button button1 = new Button("insert");
+                        ImageView arrowImg = new ImageView(arrow);
+                        arrowImg.setFitHeight(30);
+                        arrowImg.setPreserveRatio(true);
+                        if(x == Game.board[0].length+1) {
+                            arrowImg.setRotate(arrowImg.getRotate() + 180);
+                        } else if(y == 0) {
+                            arrowImg.setRotate(arrowImg.getRotate() + 90);
+                        } else if(y == Game.board.length+1) {
+                            arrowImg.setRotate(arrowImg.getRotate() - 90);
+                        }
+
+
+                        Button button1 = new Button("",arrowImg);
+
+                        button1.setStyle("-fx-background-color: transparent;");
+                        button1.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
 
                         int finalY = y;
                         int finalX = x;
@@ -281,6 +324,11 @@ public class Controller {
         playerLoop(true);
     }
 
+    @FXML
+    private void goToMenu() throws IOException {
+        AnchorPane temp = FXMLLoader.load(getClass().getResource("Menu.fxml"));
+        gamePane.getChildren().setAll(temp);
+    }
 
     @FXML
     private void nextTurn() {
@@ -388,7 +436,7 @@ public class Controller {
         for (int k = 0; k < Game.players.length; k++) {
 
             ImageView imageView = new ImageView(Game.players[k].getPlayerImage());
-            imageView.setFitHeight(50);
+            imageView.setFitHeight(sizeOfActionTiles);
             imageView.setPreserveRatio(true);
             Button button = new Button(Game.players[k].getPlayerProfile().getName(), imageView);
 
@@ -449,7 +497,7 @@ public class Controller {
         for(int i = 0; i < Game.players[player].sizeOfHand() && i < 3; i++){
 
             ImageView imageView = new ImageView(Game.players[player].getHand(i + hand).getImage());
-            imageView.setFitWidth(50);
+            imageView.setFitWidth(sizeOfActionTiles);
             imageView.setPreserveRatio(true);
             Button button = new Button();
             button.setGraphic(imageView);

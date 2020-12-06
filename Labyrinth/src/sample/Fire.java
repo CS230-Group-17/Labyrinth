@@ -25,7 +25,7 @@ public class Fire extends ActionTile {
             for(FloorTile tile : temp){
                 tile.isOnFire = true;
                 tile.isOnFireForTheNextNTurns = Game.currentTurn + (2 * Game.numOfPlayers);
-                }
+            }
 
         }else {
             System.out.println("there are players in that area");

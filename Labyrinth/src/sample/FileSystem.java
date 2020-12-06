@@ -303,7 +303,7 @@ public class FileSystem {
 		for (FloorTile[] currentRow : gameBoard) {
 			String boardString = "";
 			for (FloorTile currentFloorTile : currentRow) {
-				String imagePath = currentFloorTile.getImg();
+				String imagePath = currentFloorTile.getImgPath();
 				String name = currentFloorTile.getName();
 				boolean direction_north = currentFloorTile.isNorth();
 				boolean direction_east = currentFloorTile.isEast();

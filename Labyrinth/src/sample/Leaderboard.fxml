@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="leaderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Leaderboard">
+   <children>
+      <Button layoutX="29.0" layoutY="20.0" mnemonicParsing="false" onAction="#backBtn" text="Back" />
+      <Label layoutX="188.0" layoutY="10.0" text="    LEADERBOARD" textAlignment="CENTER">
+         <font>
+            <Font name="Times New Roman Bold" size="34.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="mapsBox" layoutX="20.0" layoutY="145.0" onAction="#loadMaps" promptText="Maps" />
+      <TableView fx:id="playerTable" layoutX="144.0" layoutY="77.0" opacity="0.7" />
+   </children>
+</AnchorPane>

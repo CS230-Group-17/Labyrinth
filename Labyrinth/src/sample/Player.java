@@ -15,8 +15,8 @@ public class Player
 	private ArrayList<FloorTile> backTiles= new ArrayList<FloorTile>();
 	private int movesPerTurn = 1;
 	private FloorTile playerLocation;
-	
-	
+
+
 	public Player(String imgPath, PlayerProfile playerProfile, FloorTile location, Image playerImage) {
 		this.imgPath = imgPath;
 		this.playerProfile = playerProfile;
@@ -38,7 +38,7 @@ public class Player
 	{
 		return prevBtPlayers;
 	}
-	
+
 	public void addPrevBtPlayers(Player btdPlayer)
 	{
 		for (int i = 0; i < prevBtPlayers.length-1; i++)
@@ -53,7 +53,7 @@ public class Player
 
 	public ActionTile getHand(int index)
 	{
-	    return hand.get(index);
+		return hand.get(index);
 	}
 
 	public ArrayList<ActionTile> getWholeHand()
@@ -76,12 +76,12 @@ public class Player
 	{
 		return imgPath;
 	}
-	
+
 	public int getMovesPerTurn()
 	{
 		return movesPerTurn;
 	}
-	
+
 	public void setMovesPerTurn(int num)
 	{
 		if (num > 2)
@@ -92,7 +92,7 @@ public class Player
 		{
 			num = 0;
 		}
-		
+
 		movesPerTurn = num;
 	}
 
@@ -101,36 +101,36 @@ public class Player
 	 * Adds a tile on which the player was standing on
 	 * @param pastTile the past tile it was standing on
 	 */
-	 public void updateGetBackTiles(FloorTile pastTile) {
-		 backTiles.add(0, pastTile);
-		 if(backTiles.size() > 2) {
+	public void updateGetBackTiles(FloorTile pastTile) {
+		backTiles.add(0, pastTile);
+		if(backTiles.size() > 2) {
 			backTiles.remove(2);
 		}
-	 }
+	}
 
 	/**
 	 * Returns the soonest tile it was standing on
 	 * @return the soonest tile
 	 */
-	 public FloorTile getBackTiles() {
-	 	if(backTiles.size() == 0){
-	 		return null;
+	public FloorTile getBackTiles() {
+		if(backTiles.size() == 0){
+			return null;
 		}else {
 			FloorTile temp = backTiles.get(0);
 			backTiles.remove(0);
 			return temp;
 		}
-	 }
-	 
-	 /**
-	  * Sets the position of the player piece
-	  * @param newPos
-	  */
-	 public void setPosition(FloorTile newPos) {
-		 this.playerLocation = newPos;
-	 }
+	}
 
-	 public FloorTile getPosition() {
+	/**
+	 * Sets the position of the player piece
+	 * @param newPos
+	 */
+	public void setPosition(FloorTile newPos) {
+		this.playerLocation = newPos;
+	}
+
+	public FloorTile getPosition() {
 		return playerLocation;
-	 }
+	}
 }

@@ -7,17 +7,16 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane fx:id="anchPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="sample.Menu" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="anchPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Menu">
    <children>
       <Button fx:id="newGameBtn" layoutX="437.0" layoutY="137.0" mnemonicParsing="false" onAction="#showLevelSelect" text="New Game" />
-      <ComboBox fx:id="playerdd1" layoutX="14.0" layoutY="112.0" onAction="#showProfiles" prefWidth="150.0" promptText="Player 1" />
-      <Label fx:id="playerProfileLbl" layoutX="14.0" layoutY="320.0" text="Label" />
-      <ComboBox fx:id="playerdd2" layoutX="14.0" layoutY="150.0" onAction="#showProfiles" prefWidth="150.0" promptText="Player 2" />
-      <ComboBox fx:id="playerdd3" layoutX="14.0" layoutY="188.0" onAction="#showProfiles" prefWidth="150.0" promptText="Player 3" />
-      <ComboBox fx:id="playerdd4" layoutX="14.0" layoutY="226.0" onAction="#showProfiles" prefWidth="150.0" promptText="Player 4" />
+      <ComboBox fx:id="playerdd1" layoutX="14.0" layoutY="112.0" onAction="#updatePlayerCount" onMouseClicked="#showProfiles" prefWidth="150.0" promptText="Player 1" />
+      <Label fx:id="playerProfileLbl" layoutX="15.0" layoutY="341.0" text="Label" />
+      <ComboBox fx:id="playerdd2" layoutX="14.0" layoutY="150.0" onAction="#updatePlayerCount" onMouseClicked="#showProfiles" prefWidth="150.0" promptText="Player 2" />
+      <ComboBox fx:id="playerdd3" layoutX="14.0" layoutY="188.0" onAction="#updatePlayerCount" onMouseClicked="#showProfiles" prefWidth="150.0" promptText="Player 3" />
+      <ComboBox fx:id="playerdd4" layoutX="14.0" layoutY="226.0" onAction="#updatePlayerCount" onMouseClicked="#showProfiles" prefWidth="150.0" promptText="Player 4" />
       <TextField fx:id="newPlayerTxt" layoutX="15.0" layoutY="268.0" promptText="Profile Name" />
-      <Button fx:id="createBtn" layoutX="208.0" layoutY="268.0" mnemonicParsing="false" onAction="#createProfile" text="Create Profile" />
+      <Button fx:id="createBtn" layoutX="163.0" layoutY="268.0" mnemonicParsing="false" onAction="#createProfile" text="Create Profile" />
       <Button fx:id="loadGameBtn" layoutX="437.0" layoutY="176.0" mnemonicParsing="false" onAction="#showGameSelect" text="Load Game" />
       <Label fx:id="playerCount" layoutX="502.0" layoutY="25.0" text="0 Players" />
       <Label fx:id="gTitle" layoutX="233.0" layoutY="14.0" text="Labyrinth" textAlignment="CENTER">
@@ -25,8 +24,15 @@
             <Font name="Times New Roman" size="34.0" />
          </font>
       </Label>
-      <ComboBox fx:id="levelSelectCb" layoutX="226.0" layoutY="163.0" prefWidth="150.0" promptText="Select Level" visible="false" />
-      <ComboBox fx:id="gameSelect" layoutX="226.0" layoutY="164.0" prefWidth="150.0" promptText="Select Game" visible="false" />
-      <Button fx:id="testBtn" layoutX="208.0" layoutY="316.0" mnemonicParsing="false" onAction="#showProfileTest" text="Test" />
+      <ComboBox fx:id="levelSelectCb" layoutX="226.0" layoutY="163.0" onAction="#chosenLevel" prefWidth="150.0" promptText="Select Level" visible="false" />
+      <Button fx:id="testBtn" layoutX="209.0" layoutY="337.0" mnemonicParsing="false" onAction="#showProfileTest" text="Test" />
+      <Button fx:id="clearBtn1" layoutX="164.0" layoutY="112.0" mnemonicParsing="false" onAction="#clearPlayerdd1" text="Clear" />
+      <Button fx:id="clearBtn2" layoutX="164.0" layoutY="150.0" mnemonicParsing="false" onAction="#clearPlayerdd2" text="Clear" />
+      <Button fx:id="clearBtn4" layoutX="164.0" layoutY="226.0" mnemonicParsing="false" onAction="#clearPlayerdd4" text="Clear" />
+      <Button fx:id="clearBtn3" layoutX="164.0" layoutY="188.0" mnemonicParsing="false" onAction="#clearPlayerdd3" text="Clear" />
+      <ComboBox fx:id="deleteProfiledd" layoutX="15.0" layoutY="309.0" onMouseClicked="#showProfiles" prefWidth="150.0" promptText="Player Profile" />
+      <Button fx:id="deleteProfileBtn" layoutX="165.0" layoutY="309.0" mnemonicParsing="false" onAction="#deletePlayerProfile" text="Delete Profile" />
+      <Button layoutX="437.0" layoutY="239.0" mnemonicParsing="false" onAction="#showLeader" text="Show Leaderboards" />
+      <Label fx:id="messageOfTheDay" layoutX="15.0" layoutY="369.0" text="Label" />
    </children>
 </AnchorPane>
