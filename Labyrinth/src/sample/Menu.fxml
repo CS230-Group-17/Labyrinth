@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: Pink;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Menu">
+<AnchorPane fx:id="anchPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="750.0" style="-fx-background-color: Pink;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Menu">
    <children>
       <Button fx:id="newGameBtn" blendMode="OVERLAY" layoutX="437.0" layoutY="137.0" mnemonicParsing="false" onAction="#showLevelSelect" text="New Game" />
       <ComboBox fx:id="playerdd1" blendMode="OVERLAY" layoutX="14.0" layoutY="112.0" onAction="#updatePlayerCount" onMouseClicked="#showProfiles" prefWidth="150.0" promptText="Player 1" />
