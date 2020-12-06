@@ -64,6 +64,7 @@ public class Menu {
     @FXML
     private void createProfile() {
         FileSystem.createPlayerProfile(newPlayerTxt.getText());
+        newPlayerTxt.setText(null);
     }
 
     @FXML
