@@ -14,7 +14,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 
 import javafx.scene.layout.GridPane;
-
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -83,7 +84,8 @@ public class GameControl {
         String ice = "src\\sample\\IMG\\ice.png";
         String weedPath = "src\\sample\\IMG\\weed.png";
         String arrowPath = "src\\sample\\IMG\\arrow.png";
-
+        
+        music();
 
         iceIm = new Image(new FileInputStream(ice));
         fireIm = new Image(new FileInputStream(fire));
@@ -589,6 +591,12 @@ public class GameControl {
         Game.players[Game.currentTurn % Game.numOfPlayers].addPrevBtPlayers(Game.players[chosenPlayer]);
         chosenPlayer = -1;
     }
-
-
+    
+    MediaPlayer mediaPlayer;
+    public void music()
+    {
+    	Media h = new Media("src\\sample\\Sound\\music.mp3");
+    	mediaPlayer = new MediaPlayer(h);
+    	mediaPlayer.play();
+    }
 }

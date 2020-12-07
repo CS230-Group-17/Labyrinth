@@ -34,5 +34,7 @@
       <Button fx:id="deleteProfileBtn" blendMode="OVERLAY" layoutX="165.0" layoutY="309.0" mnemonicParsing="false" onAction="#deletePlayerProfile" text="Delete Profile" />
       <Button blendMode="OVERLAY" layoutX="437.0" layoutY="239.0" mnemonicParsing="false" onAction="#showLeader" text="Show Leaderboards" />
       <Label fx:id="messageOfTheDay" layoutX="15.0" layoutY="369.0" text="Label" textFill="WHITE" />
+      <Button fx:id="saveGameBtn" blendMode="OVERLAY" layoutX="437.0" layoutY="281.0" mnemonicParsing="false" onAction="#save" text="Save Game" />
+      <Button fx:id="returnToGameBtn" blendMode="OVERLAY" layoutX="437.0" layoutY="316.0" mnemonicParsing="false" onAction="#returnToGame" text="Return To Game" />
    </children>
 </AnchorPane>

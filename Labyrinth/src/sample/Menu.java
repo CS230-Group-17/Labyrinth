@@ -256,4 +256,16 @@ public class Menu {
         }
         return result.toString();
     }
+    
+    @FXML
+    public void save()
+    {
+    	
+    }
+    
+    @FXML
+    public void returnToGame()
+    {
+    	
+    }
 }
